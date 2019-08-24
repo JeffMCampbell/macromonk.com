@@ -1,0 +1,65 @@
+@tailwind preflight;
+@tailwind components;
+@tailwind utilities;
+
+$theme-black-1: #x;
+$theme-black-2: darken(#B8C2CC, 58%);
+$theme-black-3: darken(#B8C2CC, 54%);
+$theme-red-1: #ba3e3e;
+
+.bg-theme-black-1 { background-color: $theme-black-1; }
+.bg-theme-black-2 { background-color: $theme-black-2; }
+.bg-theme-black-3 { background-color: $theme-black-3; }
+.bg-theme-red-1 { background-color: $theme-red-1; }
+
+.dashboard--container {
+    display: grid;
+    grid-template-columns: 250px 1fr;
+    grid-template-rows: auto 1fr;
+
+    nav {
+        grid-column: span 2;
+    }
+
+    aside {
+        grid-column: span 1;
+        background: $theme-black-2;
+    }
+
+    main {
+        grid-column: span 1;
+    }
+
+    footer {
+        grid-column: span 2;
+        padding: 1rem;
+    }
+}
+
+
+
+
+.dashboard--nav-menu {
+    top: 100%;
+}
+
+.dashboard--nav-menu-item {
+    &:hover {
+        @extend .bg-theme-black-1;
+    }
+}
+
+
+.ingredient-form--chart {
+    height: 30rem;
+    width: 30rem;
+}
+
+.scrollable {
+    overflow: hidden;
+    overflow-y: auto;
+}
+
+.macro-card-list {
+    max-height: 30rem;
+}

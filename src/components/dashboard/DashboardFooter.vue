@@ -1,0 +1,13 @@
+<template>
+  <footer class="p-4 bg-black">
+    <div class="flex justify-center">
+      <div class="text-sm text-grey-lighter">Developed & Designed by Jeff Campbell</div>
+    </div>
+  </footer>
+</template>
+
+<script>
+export default {
+    name: 'dashboard-footer'
+}
+</script>
