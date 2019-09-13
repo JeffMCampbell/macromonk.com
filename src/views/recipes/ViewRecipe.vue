@@ -4,7 +4,8 @@
     <div class="flex flex-col md:flex-row">
       <div class="flex-1">
         <card class="bg-theme-black-2 mb-4" :title="`Ingredients (${ingredients.length})`">
-          <macro-grid :items="ingredients" @selected="(ingredient) => $router.push({ name: 'view-ingredient', params: { ingredientId: ingredient.id } })"/>
+          <macro-grid :items="ingredients" @selected="(ingredient) => $router.push({ name: 'view-ingredient', params: { ingredientId: ingredient.id } })" v-if="ingredients.length"/>
+          <div class="text-white text-center text-sm italic" v-else>Recipe has no ingredients.</div>
         </card>
       </div>
       <macro-card class="self-start" :calories="recipe.calories" :protein="recipe.protein" :carbs="recipe.carbs" :fat="recipe.fat"/>
@@ -56,9 +57,6 @@ export default {
         }
     },
     computed: {
-        breadCrumbs () {
-            return [{ title: 'Recipes', route: 'recipes' }, { title: this.recipe.name, route: 'view-recipe', params: { id: this.recipeId } }]
-        },
         ...mapGetters({
             getRecipe: 'getRecipe',
             ingredientsForRecipe: 'ingredientsForRecipe'
@@ -68,6 +66,9 @@ export default {
         },
         ingredients () {
             return this.ingredientsForRecipe(this.recipeId).map((ingredient) => new RecipeIngredient(this.recipe, ingredient))
+        },
+        breadCrumbs () {
+            return [{ title: 'Recipes', route: 'recipes' }, { title: this.recipe.name, route: 'view-recipe', params: { id: this.recipeId } }]
         }
     },
     created () {

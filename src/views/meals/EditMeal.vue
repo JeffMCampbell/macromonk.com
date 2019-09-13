@@ -46,6 +46,7 @@ export default {
     },
     created () {
         this.meal = cloneDeep(this.getMeal(this.mealId))
+        if (!this.meal) { this.$router.replace({ name: 'meals' }) }
         this.originalName = this.meal.name
     },
     methods: {

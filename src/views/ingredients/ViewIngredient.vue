@@ -7,25 +7,16 @@
           <div class="text-white text-base">{{ ingredient.portionAmount }} {{ ingredient.portionType }}</div>
         </card>
         <card class="bg-theme-black-2 mb-4" :title="`Contained in Recipes (${recipes.length})`">
-          <macro-grid :items="recipes" @selected="(recipe) => $router.push({ name: 'view-recipe', params: { recipeId: recipe.id } })"/>
-          <div class="text-center" v-if="!recipes.length">
-            <div class="text-white text-sm italic mb-4">Ingredient is not in any recipes.</div>
-            <v-button background="bg-green" background-hover="hover:bg-green-dark" @click.native="() => $router.push({ name: 'create-recipe'})">Create Recipe</v-button>
-          </div>
+          <macro-grid :items="recipes" @selected="(recipe) => $router.push({ name: 'view-recipe', params: { recipeId: recipe.id } })" v-if="recipes.length"/>
+          <div class="text-white text-center text-sm italic" v-else>Ingredient is not in any recipes.</div>
         </card>
         <card class="bg-theme-black-2 mb-4" :title="`Contained in Meals (${meals.length})`">
-          <macro-grid :items="meals" @selected="(meal) => $router.push({ name: 'view-meal', params: { mealId: meal.id } })"/>
-          <div class="text-center" v-if="!meals.length">
-            <div class="text-white text-sm italic mb-4">Ingredient is not in any meals.</div>
-            <v-button background="bg-green" background-hover="hover:bg-green-dark" @click.native="() => $router.push({ name: 'create-meal'})">Create Meal</v-button>
-          </div>
+          <macro-grid :items="meals" @selected="(meal) => $router.push({ name: 'view-meal', params: { mealId: meal.id } })" v-if="meals.length"/>
+          <div class="text-white text-center text-sm italic" v-else>Ingredient is not in any meals.</div>
         </card>
         <card class="bg-theme-black-2 mb-4" :title="`Contained in Days (${days.length})`">
-          <macro-grid :items="days" @selected="(day) => $router.push({ name: 'view-day', params: { dayId: day.id } })"/>
-          <div class="text-center" v-if="!days.length">
-            <div class="text-white text-sm italic mb-4">Ingredient is not in any days.</div>
-            <v-button background="bg-green" background-hover="hover:bg-green-dark" @click.native="() => $router.push({ name: 'create-day'})">Create Day</v-button>
-          </div>
+          <macro-grid :items="days" @selected="(day) => $router.push({ name: 'view-day', params: { dayId: day.id } })" v-if="days.length"/>
+          <div class="text-white text-center text-sm italic" v-else>Ingredient is not in any days.</div>
         </card>
       </div>
       <macro-card class="self-start" :calories="ingredient.calories" :protein="ingredient.protein" :carbs="ingredient.carbs" :fat="ingredient.fat"/>
@@ -50,12 +41,11 @@ import ViewHeader from '@/components/shared/ViewHeader'
 import MacroCard from '@/components/shared/MacroCard'
 import Card from '@/components/shared/Card'
 import ConfirmModal from '@/components/shared/modals/ConfirmModal'
-import VButton from '@/components/shared/Button'
 import MacroGrid from '@/components/shared/MacroGrid'
 
 export default {
     name: 'view-ingredient',
-    components: { ViewHeader, MacroCard, Card, ConfirmModal, VButton, MacroGrid },
+    components: { ViewHeader, MacroCard, Card, ConfirmModal, MacroGrid },
     props: {
         ingredientId: {
             type: String,
@@ -86,9 +76,6 @@ export default {
             mealsForIngredientIncludingRecipes: 'mealsForIngredientIncludingRecipes',
             daysForIngredient: 'daysForIngredient'
         }),
-        breadCrumbs () {
-            return [{ title: 'Ingredients', route: 'ingredients' }, { title: this.ingredient.name, route: 'view-ingredient', params: { id: this.ingredientId } }]
-        },
         ingredient () {
             return this.getIngredient(this.ingredientId)
         },
@@ -100,6 +87,9 @@ export default {
         },
         days () {
             return this.daysForIngredient(this.ingredientId).map((day) => new IngredientDay(this.ingredient, day))
+        },
+        breadCrumbs () {
+            return [{ title: 'Ingredients', route: 'ingredients' }, { title: this.ingredient.name, route: 'view-ingredient', params: { id: this.ingredientId } }]
         }
     },
     created () {
