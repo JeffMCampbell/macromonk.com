@@ -8,7 +8,7 @@ export default class extends MacroModel {
     }
 
     get fullName () {
-        return this.nameWithPortionLabel()
+        return this.nameWithPortionLabel(this.portionAmount)
     }
 
     portionLabel (amount = 1) {
