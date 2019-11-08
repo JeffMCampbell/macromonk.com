@@ -16,7 +16,7 @@ export default class extends MacroModel {
                 calories: carry.calories + (ingredientRecipe.calories * mealRecipePortions),
                 protein: carry.protein + (ingredientRecipe.protein * mealRecipePortions),
                 carbs: carry.carbs + (ingredientRecipe.carbs * mealRecipePortions),
-                fat: carry.fat + (ingredientRecipe.fa * mealRecipePortions)
+                fat: carry.fat + (ingredientRecipe.fat * mealRecipePortions)
             }
         }, { portions: 0, calories: 0, protein: 0, carbs: 0, fat: 0 })
 
