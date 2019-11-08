@@ -17,7 +17,7 @@
                 <delete-icon @click.native="deleteIngredient(ingredient)"/>
               </div>
             </div>
-            <macro-bar :calories="(ingredient.calories / ingredient.portionAmount) * ingredients[ingredient.id]" :protein="(ingredient.protein / ingredient.portionAmount) * ingredients[ingredient.id]" :carbs="(ingredient.carbs / ingredient.portionAmount) * ingredients[ingredient.id]" :fat="(ingredient.fat / ingredient.portionAmount) * ingredients[ingredient.id]"/>
+            <macro-bar class="p-4" :calories="(ingredient.calories / ingredient.portionAmount) * ingredients[ingredient.id]" :protein="(ingredient.protein / ingredient.portionAmount) * ingredients[ingredient.id]" :carbs="(ingredient.carbs / ingredient.portionAmount) * ingredients[ingredient.id]" :fat="(ingredient.fat / ingredient.portionAmount) * ingredients[ingredient.id]"/>
           </div>
           <div class="flex justify-center">
             <v-button background="bg-white" background-hover="hover:bg-grey-light" font-color="text-black" @click.native="showModal = true" :disabled="!availableIngredients.length">
