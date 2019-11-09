@@ -113,15 +113,13 @@ export default {
 
 <style lang="scss" scoped>
   .carousel-wrapper {
-    // width: 50rem;
-    // max-height: 500px;
     img {
       height: 500px;
     }
   }
 
   .notsure {
-    background: #e65955;
+    background: #48545d;
   }
 
     .auth-modal-wrapper {
