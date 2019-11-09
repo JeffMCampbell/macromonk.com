@@ -9,12 +9,12 @@
       </div>
     </div>
 
-    <div class="flex flex-col items-center justify-center notsure w-full">
+    <div class="flex flex-col items-center justify-center notsure w-full p-4">
       <div class="text-3xl text-white text-bold mt-8 mb-4">Plan Your Macros For Ingredients, Recipes, Meals and Days</div>
       <div class="text-xl text-white text-bold mb-8">Manually enter macros from your own nutrition label!</div>
       <div class="carousel-wrapper overflow-auto p-4">
         <carousel :per-page="1">
-          <slide class="text-center" v-for="image in images" :key="image.path">
+          <slide class="text-center image-slide" v-for="image in images" :key="image.path">
             <img :src="image.path">
           </slide>
         </carousel>
@@ -65,31 +65,31 @@ export default {
         images () {
             return [
                 {
-                    path: '/img/landing/ingredient-list.png'
+                    path: '/img/landing/ingredient-list2.png'
                 },
                 {
-                    path: '/img/landing/new-ingredient.png'
+                    path: '/img/landing/new-ingredient2.png'
                 },
                 {
-                    path: '/img/landing/view-ingredient.png'
+                    path: '/img/landing/view-ingredient2.png'
                 },
                 {
-                    path: '/img/landing/view-recipe.png'
+                    path: '/img/landing/view-recipe2.png'
                 },
                 {
-                    path: '/img/landing/edit-recipe.png'
+                    path: '/img/landing/edit-recipe2.png'
                 },
                 {
-                    path: '/img/landing/create-meal.png'
+                    path: '/img/landing/create-meal2.png'
                 },
                 {
-                    path: '/img/landing/view-meal.png'
+                    path: '/img/landing/view-meal2.png'
                 },
                 {
-                    path: '/img/landing/create-day.png'
+                    path: '/img/landing/create-day2.png'
                 },
                 {
-                    path: '/img/landing/view-day.png'
+                    path: '/img/landing/view-day2.png'
                 }
             ]
         }
@@ -112,10 +112,19 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  .image-slide {
+      width:auto;
+      // text-align:center;
+      // padding:20px;
+        img {
+          max-width:100%;
+          height:auto;
+      }
+  }
+
+
   .carousel-wrapper {
-    img {
-      height: 500px;
-    }
+
   }
 
   .notsure {
