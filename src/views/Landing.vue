@@ -1,9 +1,28 @@
 <template>
   <div class="min-h-screen flex flex-col items-center">
 
+    <div class="flex w-full items-center justify-between px-20">
+      <logo/>
+      <div class="flex items-center justify-center p-6">
+        <button class="bg-red-light text-grey-light font-bold py-3 px-4 rounded mr-5" @click="toggleShowLogin">Login</button>
+        <button class="bg-transparent text-red-light font-bold py-3 px-4 rounded border border-red-light" @click="toggleShowCreateAccount">Create Account</button>
+      </div>
+    </div>
+
+    <div class="flex flex-col items-center justify-center notsure w-full">
+      <div class="text-3xl text-white text-bold mt-8 mb-4">Plan Your Macros For Ingredients, Recipes, Meals and Days</div>
+      <div class="text-xl text-white text-bold mb-8">Manually enter macros from your own nutrition label!</div>
+      <div class="carousel-wrapper overflow-auto p-4">
+        <carousel :per-page="1">
+          <slide class="text-center" v-for="image in images" :key="image.path">
+            <img :src="image.path">
+          </slide>
+        </carousel>
+      </div>
+    </div>
+
     <div class="flex flex-col items-center justify-center p-6">
-      <div><logo class="ml-4 mb-4"/></div>
-      <div class="text-white">Nutrition Planner</div>
+      <div class="text-2xl text-white">Features</div>
     </div>
 
     <ul class="list-disc text-white mb-8">
@@ -12,19 +31,6 @@
       <li>We allow you to enter the nutrition data yourself for the ingriedents you use, instead of trusting the data on various other resources.</li>
       <li> You get to enter exactly what your label says</li>
     </ul>
-
-    <div class="flex-1 flex items-center justify-center p-6">
-      <button class="bg-red-light text-grey-light font-bold py-3 px-4 rounded mr-5" @click="toggleShowLogin">Login</button>
-      <button class="bg-transparent text-red-light font-bold py-3 px-4 rounded border border-red-light" @click="toggleShowCreateAccount">Create Account</button>
-    </div>
-
-    <div class="carousel-wrapper p-4 border-white border">
-      <carousel :per-page="1">
-        <slide v-for="image in images" :key="image.path">
-          <img :src="image.path">
-        </slide>
-      </carousel>
-    </div>
 
 
     <modal v-if="showLogin || showCreateAccount" @close="closeAuth">
@@ -39,7 +45,6 @@
 
 <script>
 import { mixin as clickaway } from 'vue-clickaway2'
-import Navigation from '@/components/navigation/Navigation'
 import Modal from '@/components/shared/modals/Modal'
 import Login from '@/components/landing/Login'
 import CreateAccount from '@/components/landing/CreateAccount'
@@ -48,7 +53,7 @@ import { Carousel, Slide } from 'vue-carousel'
 
 export default {
     name: 'landing-navigation',
-    components: { Logo, Navigation, Modal, Login, CreateAccount, Carousel, Slide },
+    components: { Logo, Modal, Login, CreateAccount, Carousel, Slide },
     mixins: [ clickaway ],
     data () {
         return {
@@ -108,7 +113,15 @@ export default {
 
 <style lang="scss" scoped>
   .carousel-wrapper {
-    width: 80rem
+    // width: 50rem;
+    // max-height: 500px;
+    img {
+      height: 500px;
+    }
+  }
+
+  .notsure {
+    background: #e65955;
   }
 
     .auth-modal-wrapper {

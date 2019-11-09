@@ -8,6 +8,6 @@
 
 <script>
 export default {
-    name: 'dashboard-footer'
+    name: 'app-footer'
 }
 </script>

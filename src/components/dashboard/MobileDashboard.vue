@@ -13,7 +13,6 @@
       <loader v-if="loading" class="absolute m-auto pin"/>
       <router-view v-else/>
     </main>
-    <dashboard-footer/>
   </div>
 </template>
 
@@ -21,12 +20,11 @@
 import { mapState } from 'vuex'
 import links from '@/resources/links'
 import MobileNavigation from '@/components/navigation/MobileNavigation'
-import DashboardFooter from '@/components/dashboard/DashboardFooter'
 import Loader from '@/components/shared/Loader'
 
 export default {
     name: 'mobile-dashboard',
-    components: { MobileNavigation, DashboardFooter, Loader },
+    components: { MobileNavigation, Loader },
     data () {
         return {
             showMobileMenu: false
