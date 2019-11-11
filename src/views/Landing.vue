@@ -114,10 +114,10 @@ export default {
 <style lang="scss" scoped>
   .image-slide {
       width:auto;
-      // text-align:center;
-      // padding:20px;
+      height: 500px;
+      overflow: auto;
         img {
-          max-width:100%;
+          width: 800px;
           height:auto;
       }
   }
