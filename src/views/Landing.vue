@@ -114,7 +114,8 @@ export default {
 <style lang="scss" scoped>
   .image-slide {
       width:auto;
-      height: 500px;
+      height: auto;
+      max-height: 500px;
       overflow: auto;
         img {
           width: 800px;
