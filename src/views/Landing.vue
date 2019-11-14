@@ -58,6 +58,6 @@ export default {
   }
 
   .auth-modal-wrapper {
-      width: 25rem;
+      max-width: 25rem;
   }
 </style>

@@ -1,7 +1,7 @@
 <template>
   <transition name="modal">
     <div class="modal-mask">
-      <div class="modal-container" v-on-clickaway="() => $emit('close')">
+      <div class="modal-container m-4" v-on-clickaway="() => $emit('close')">
         <div class="bg-theme-black-3 pt-16 pb-12 pl-16 pr-12" v-if="loading">
           <loader class=""/>
         </div>
