@@ -1,7 +1,7 @@
 <template>
-  <div class="min-h-screen flex flex-col items-center">
+  <div class="flex flex-col items-center">
 
-    <div class="flex w-full items-center justify-between px-20" >
+    <div class="bg-theme-black-2 flex w-full items-center justify-between px-20" >
       <div class="flex items-center py-5">
         <logo/>
       </div>
@@ -24,23 +24,6 @@
       </div>
     </div>
 
-    <div class="flex flex-col items-center justify-center p-6">
-      <div class="text-2xl text-white">Features</div>
-    </div>
-
-    <ul class="list-disc text-white mb-8">
-      <li>MacroMonk is a tool to help you manage and plan your calorie and macro nutritent intake.</li>
-      <li>It helps you plan your macros for recipes, meals & days based on raw ingredients you enter into the app.</li>
-      <li>We allow you to enter the nutrition data yourself for the ingriedents you use, instead of trusting the data on various other resources.</li>
-      <li> You get to enter exactly what your label says</li>
-    </ul>
-
-    <modal v-if="showLogin || showCreateAccount" @close="closeAuth">
-      <div class="auth-modal-wrapper">
-        <login v-if="showLogin"/>
-        <create-account v-if="showCreateAccount"/>
-      </div>
-    </modal>
 
   </div>
 </template>
@@ -101,20 +84,7 @@ export default {
       }
   }
 
-  .mobile-footer {
-    height: 50px;
-  }
-
-
-  .carousel-wrapper {
-
-  }
-
   .notsure {
     background: #48545d;
   }
-
-    .auth-modal-wrapper {
-        width: 25rem;
-    }
 </style>

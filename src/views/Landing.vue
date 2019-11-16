@@ -1,12 +1,26 @@
 <template>
-  <div>
+  <div class="wrapper">
     <component :is="landingComponent" :login-handler="toggleShowLogin" :create-account-handler="toggleShowCreateAccount"/>
+
+
+    <div class="flex items-center flex-col p-4">
+      <div class="text-3xl text-white mb-6">Features</div>
+
+      <ul class="list-disc text-white mb-8">
+        <li class="mb-2">MacroMonk is a tool to help you manage and plan your calorie and macro nutritent intake.</li>
+        <li class="mb-2">It helps you plan your macros for recipes, meals & days based on raw ingredients you enter into the app.</li>
+        <li class="mb-2">We allow you to enter the nutrition data yourself for the ingriedents you use, instead of trusting the data on various other resources.</li>
+        <li> You get to enter exactly what your label says</li>
+      </ul>
+    </div>
+
     <modal v-if="showLogin || showCreateAccount" @close="closeAuth">
       <div class="auth-modal-wrapper">
         <login v-if="showLogin"/>
         <create-account v-if="showCreateAccount"/>
       </div>
     </modal>
+
   </div>
 </template>
 
@@ -53,8 +67,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .notsure {
+  .wrapper {
     background: #48545d;
+    height: auto;
   }
 
   .auth-modal-wrapper {

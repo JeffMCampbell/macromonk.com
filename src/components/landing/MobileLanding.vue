@@ -1,17 +1,15 @@
 <template>
-  <div class="min-h-screen flex flex-col items-center">
+  <div class="flex flex-col items-center">
 
-    <div class="flex items-center py-5">
+    <div class="w-full flex justify-center bg-theme-black-2 py-5">
       <logo/>
     </div>
 
-    <div class="notsure">
-
+    <div>
       <div class="flex items-center justify-center p-6">
         <button class="bg-red-light text-grey-light font-bold py-3 px-4 rounded mr-5" @click="loginHandler">Login</button>
         <button class="bg-transparent text-red-light font-bold py-3 px-4 rounded border border-red-light" @click="createAccountHandler">Create Account</button>
       </div>
-
       <div class="flex flex-col items-center justify-center text-center w-full p-4">
         <div class="text-3xl text-white text-bold mb-4">Plan Your Macros For Ingredients, Recipes, Meals and Days</div>
         <div class="text-xl text-white text-bold mb-8">Manually enter macros from your own nutrition label!</div>
@@ -23,18 +21,6 @@
           </carousel>
         </div>
       </div>
-
-      <div class="flex flex-col items-center justify-center p-6">
-        <div class="text-2xl text-white">Features</div>
-      </div>
-
-      <ul class="list-disc text-white mb-8">
-        <li>MacroMonk is a tool to help you manage and plan your calorie and macro nutritent intake.</li>
-        <li>It helps you plan your macros for recipes, meals & days based on raw ingredients you enter into the app.</li>
-        <li>We allow you to enter the nutrition data yourself for the ingriedents you use, instead of trusting the data on various other resources.</li>
-        <li> You get to enter exactly what your label says</li>
-      </ul>
-
     </div>
 
   </div>
@@ -88,7 +74,7 @@ export default {
   .image-slide {
       width:auto;
       height: auto;
-      max-height: 500px;
+      max-height: 250px;
       overflow: auto;
         img {
           width: 800px;
@@ -96,20 +82,4 @@ export default {
       }
   }
 
-  .mobile-footer {
-    height: 50px;
-  }
-
-
-  .carousel-wrapper {
-
-  }
-
-  .notsure {
-    background: #48545d;
-  }
-
-    .auth-modal-wrapper {
-        width: 25rem;
-    }
 </style>
