@@ -1,21 +1,19 @@
 <template>
   <div>
-    <view-header :title="originalName" :bread-crumbs="breadCrumbs"/>
+    <view-header :title="originalName" sub-title="Day" :bread-crumbs="breadCrumbs"/>
     <div class="flex flex-row">
       <day-form save-text="Save Day" v-model="day" @save="save"/>
-      <macro-card v-if="isDesktop" :calories="macros.calories" :protein="macros.protein" :carbs="macros.carbs" :fat="macros.fat"/>
+      <macro-card v-if="isDesktop" :calories="day.calories" :protein="day.protein" :carbs="day.carbs" :fat="day.fat"/>
     </div>
   </div>
 </template>
 
 <script>
-import { mapGetters, mapMutations } from 'vuex'
+import { mapGetters, mapMutations, mapActions } from 'vuex'
 import { cloneDeep } from 'lodash'
-import MacroCalculator from '@/services/macro-calculator'
-import DayService from '@/services/day-service'
 import ViewHeader from '@/components/shared/ViewHeader'
 import DayForm from '@/components/days/DayForm'
-import MacroCard from '@/components/shared/MacroCard'
+import MacroCard from '@/components/shared/macro_items/MacroCard'
 
 export default {
     name: 'edit-day',
@@ -33,15 +31,9 @@ export default {
         }
     },
     computed: {
-        ...mapGetters({
-            getDay: 'getDay',
-            isDesktop: 'isDesktop'
-        }),
+        ...mapGetters(['getDay', 'isDesktop']),
         breadCrumbs () {
             return [{ title: 'Days', route: 'days' }, { title: this.day.name, route: 'view-day', params: { id: this.dayId } }, { title: 'Edit' }]
-        },
-        macros () {
-            return MacroCalculator.forDay(this.day)
         }
     },
     created () {
@@ -49,12 +41,11 @@ export default {
         this.originalName = this.day.name
     },
     methods: {
-        ...mapMutations({
-            setDashboardLoading: 'setDashboardLoading'
-        }),
+        ...mapMutations(['setDashboardLoading']),
+        ...mapActions(['updateDay']),
         async save () {
             this.setDashboardLoading(true)
-            await DayService.updateDay(this.dayId, this.day)
+            await this.updateDay(this.day)
             this.$router.push({ name: 'view-day', params: { dayId: this.dayId } })
             this.setDashboardLoading(false)
         }

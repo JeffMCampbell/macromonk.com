@@ -1,6 +1,6 @@
 <template>
   <div>
-    <view-header :title="originalName" :bread-crumbs="breadCrumbs"/>
+    <view-header :title="originalName" sub-title="Recipe" :bread-crumbs="breadCrumbs"/>
     <div class="flex flex-row">
       <recipe-form save-text="Save Recipe" v-model="recipe" @save="save"/>
       <macro-card v-if="isDesktop" :calories="macros.calories" :protein="macros.protein" :carbs="macros.carbs" :fat="macros.fat"/>
@@ -9,13 +9,12 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations } from 'vuex'
+import { mapGetters, mapMutations, mapActions } from 'vuex'
 import { cloneDeep } from 'lodash'
 import MacroCalculator from '@/services/macro-calculator'
-import RecipeService from '@/services/recipe-service'
 import ViewHeader from '@/components/shared/ViewHeader'
 import RecipeForm from '@/components/recipes/RecipeForm'
-import MacroCard from '@/components/shared/MacroCard'
+import MacroCard from '@/components/shared/macro_items/MacroCard'
 
 export default {
     name: 'edit-recipe',
@@ -33,13 +32,10 @@ export default {
         }
     },
     computed: {
+        ...mapGetters(['getRecipe', 'isDesktop']),
         breadCrumbs () {
             return [{ title: 'Recipes', route: 'recipes' }, { title: this.originalName, route: 'view-recipe', params: { id: this.recipeId } }, { title: 'Edit' }]
         },
-        ...mapGetters({
-            getRecipe: 'getRecipe',
-            isDesktop: 'isDesktop'
-        }),
         macros () {
             return MacroCalculator.forRecipe(this.recipe)
         }
@@ -56,12 +52,11 @@ export default {
         this.recipe = cloneDeep(recipe)
     },
     methods: {
-        ...mapMutations({
-            setDashboardLoading: 'setDashboardLoading'
-        }),
+        ...mapMutations(['setDashboardLoading']),
+        ...mapActions(['updateRecipe']),
         async save () {
             this.setDashboardLoading(true)
-            await RecipeService.updateRecipe(this.recipeId, this.recipe)
+            await this.updateRecipe(this.recipe)
             this.$router.push({ name: 'view-recipe', params: { recipeId: this.recipeId } })
             this.setDashboardLoading(false)
         }

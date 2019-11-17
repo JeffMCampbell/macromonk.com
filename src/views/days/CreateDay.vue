@@ -9,12 +9,11 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations } from 'vuex'
+import { mapGetters, mapMutations, mapActions } from 'vuex'
 import MacroCalculator from '@/services/macro-calculator'
 import DayForm from '@/components/days/DayForm'
-import DayService from '@/services/day-service'
 import ViewHeader from '@/components/shared/ViewHeader'
-import MacroCard from '@/components/shared/MacroCard'
+import MacroCard from '@/components/shared/macro_items/MacroCard'
 
 export default {
     name: 'create-day',
@@ -41,9 +40,10 @@ export default {
         ...mapMutations({
             setDashboardLoading: 'setDashboardLoading'
         }),
+        ...mapActions(['createDay']),
         async create () {
             this.setDashboardLoading(true)
-            await DayService.addDay(this.day)
+            await this.createDay(this.day)
             this.$router.push({ name: 'days' })
             this.setDashboardLoading(false)
         }

@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-col min-h-screen">
-    <mobile-navigation :show-menu="showMobileMenu" @toggleMenu="showMobileMenu = !showMobileMenu" />
+    <mobile-navigation :show-menu="showMobileMenu" @toggleMenu="showMobileMenu = !showMobileMenu" @closeMenu="showMobileMenu = false" />
     <div v-if="showMobileMenu" class="flex-1 flex flex-col justify-center items-center bg-theme-black-3">
       <div class="no-underline text-white text-md uppercase text-sm py-5" v-for="link in links" :key="link.route" :to="{ name: link.route }" @click="goToRoute(link.route)">
         {{ link.label }}

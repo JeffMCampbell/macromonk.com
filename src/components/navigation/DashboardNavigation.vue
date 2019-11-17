@@ -2,16 +2,16 @@
   <navigation>
 
     <div class="flex items-center h-full pl-4 pr-4 cursor-pointer" @click="() => showAccountMenu = true">
-      <div class="text-grey-lighter inline mr-3">{{ userName }}</div>
+      <div class="text-grey-lighter inline mr-3">{{ user.name }}</div>
       <account-icon class="text-3xl text-grey-lighter"/>
     </div>
 
     <div class="dashboard--nav-menu absolute bg-black pin-r text-left text-white z-50" v-if="showAccountMenu" v-on-clickaway="() => showAccountMenu = false">
       <div class="dashboard--nav-menu-item flex items-center cursor-pointer p-4" @click.stop="goToRoute('account')">
-        <wrench-icon class="mr-4 text-base"/><span class="text-sm">Settings</span>
+        <wrench-icon class="mr-4 text-xl"/><span class="text-base">Settings</span>
       </div>
       <div class="dashboard--nav-menu-item flex items-center cursor-pointer p-4" @click.stop="goToRoute('logout')">
-        <power-button-icon class="mr-4 text-base"/><span class="text-sm">Logout</span>
+        <power-button-icon class="mr-4 text-xl"/><span class="text-base">Logout</span>
       </div>
     </div>
 
@@ -37,7 +37,7 @@ export default {
     },
     computed: {
         ...mapState({
-            userName: 'name'
+            user: 'user'
         })
     },
     methods: {

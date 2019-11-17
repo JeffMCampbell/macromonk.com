@@ -1,12 +1,15 @@
 <template>
   <div>
-    <view-header :title="recipe.name" :bread-crumbs="breadCrumbs" :options="options"/>
+    <view-header :title="recipe.name" sub-title="Recipe" :bread-crumbs="breadCrumbs" :options="options"/>
     <div class="flex flex-col md:flex-row">
       <div class="flex-1">
-        <card class="bg-theme-black-2 mb-4" :title="`Ingredients (${ingredients.length})`">
-          <macro-grid :items="ingredients" @selected="(ingredient) => $router.push({ name: 'view-ingredient', params: { ingredientId: ingredient.id } })" v-if="ingredients.length"/>
-          <div class="text-white text-center text-sm italic" v-else>Recipe has no ingredients.</div>
-        </card>
+        <macro-grid-card
+          :title="`Ingredients (${ingredients.length})`"
+          tool-tip="Ingredients with this recipe and the macros each ingredient makes up within that recipe."
+          :items="ingredients"
+          @selected="(ingredient) => $router.push({ name: 'view-ingredient', params: { ingredientId: ingredient.id } })"
+          empty-text="Recipe has no ingredients."
+        />
       </div>
       <macro-card class="self-start" :calories="recipe.calories" :protein="recipe.protein" :carbs="recipe.carbs" :fat="recipe.fat"/>
     </div>
@@ -14,25 +17,23 @@
       v-if="showDeleteModal"
       header-text="Are you sure you want to delete this recipe?"
       sub-text="This is will modify any meals & days containing this recipe."
-      @confirmed="deleteRecipe"
+      @confirmed="deleteConfirmed"
       @close="() => showDeleteModal = false"
     />
   </div>
 </template>
 
 <script>
-import { mapGetters, mapMutations } from 'vuex'
-import RecipeService from '@/services/recipe-service'
+import { mapGetters, mapMutations, mapActions } from 'vuex'
 import RecipeIngredient from '@/models/RecipeIngredient'
 import ViewHeader from '@/components/shared/ViewHeader'
-import MacroCard from '@/components/shared/MacroCard'
-import Card from '@/components/shared/Card'
+import MacroCard from '@/components/shared/macro_items/MacroCard'
 import ConfirmModal from '@/components/shared/modals/ConfirmModal'
-import MacroGrid from '@/components/shared/MacroGrid'
+import MacroGridCard from '@/components/shared/macro_items/MacroGridCard'
 
 export default {
     name: 'view-recipe',
-    components: { ViewHeader, MacroCard, MacroGrid, Card, ConfirmModal },
+    components: { ViewHeader, MacroCard, MacroGridCard, ConfirmModal },
     props: {
         recipeId: {
             type: String,
@@ -57,15 +58,12 @@ export default {
         }
     },
     computed: {
-        ...mapGetters({
-            getRecipe: 'getRecipe',
-            ingredientsForRecipe: 'ingredientsForRecipe'
-        }),
+        ...mapGetters(['getRecipe', 'ingredientsForRecipe']),
         recipe () {
             return this.getRecipe(this.recipeId)
         },
         ingredients () {
-            return this.ingredientsForRecipe(this.recipeId).map((ingredient) => new RecipeIngredient(this.recipe, ingredient))
+            return this.ingredientsForRecipe(this.recipeId).map((ingredient) => new RecipeIngredient(ingredient, this.recipe))
         },
         breadCrumbs () {
             return [{ title: 'Recipes', route: 'recipes' }, { title: this.recipe.name, route: 'view-recipe', params: { id: this.recipeId } }]
@@ -75,12 +73,11 @@ export default {
         if (!this.recipe) { this.$router.replace({ name: 'recipes' }) }
     },
     methods: {
-        ...mapMutations({
-            setDashboardLoading: 'setDashboardLoading'
-        }),
-        async deleteRecipe () {
+        ...mapMutations(['setDashboardLoading']),
+        ...mapActions(['deleteRecipe']),
+        async deleteConfirmed () {
             this.setDashboardLoading(true)
-            await RecipeService.deleteRecipe(this.recipeId)
+            await this.deleteRecipe(this.recipeId)
             this.setDashboardLoading(false)
             this.$router.push({ name: 'recipes' })
         }

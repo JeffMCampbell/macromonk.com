@@ -53,7 +53,9 @@ export default {
             this.loading = true
 
             try {
+                console.log(1)
                 await handler()
+                console.log(2)
                 this.$router.replace({ name: 'ingredients' })
             } catch (error) {
                 console.log(error)

@@ -5,14 +5,13 @@
       <clear-icon v-if="showMenu"/>
     </div>
     <logo class="ml-4"/>
-    <div class="flex items-center cursor-pointer" @click.stop="$router.push({ name: 'account' })">
+    <div class="flex items-center cursor-pointer" @click.stop="showSettings">
       <account-icon/>
     </div>
   </nav>
 </template>
 
 <script>
-import { mapState } from 'vuex'
 import Logo from '@/components/shared/Logo'
 import MenuIcon from '@/components/shared/icons/MenuIcon'
 import ClearIcon from '@/components/shared/icons/ClearIcon'
@@ -27,22 +26,11 @@ export default {
             required: true
         }
     },
-    // mixins: [ clickaway ],
-    // data () {
-    //     return {
-    //         sho: false
-    //     }
-    // },
-    computed: {
-        ...mapState({
-            userName: 'name'
-        })
+    methods: {
+        showSettings (route) {
+            this.$emit('closeMenu')
+            this.$router.push({ name: 'account' })
+        }
     }
-    // methods: {
-    //     goToRoute (route) {
-    //         this.$router.push({ name: route })
-    //         this.showAccountMenu = false
-    //     }
-    // }
 }
 </script>

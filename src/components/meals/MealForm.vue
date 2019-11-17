@@ -7,64 +7,43 @@
         <validation-error class="mt-4" v-if="fieldHasError('name')" :error="getFieldError('name')"/>
       </card>
       <card class="bg-theme-black-2 mb-4" title="Ingredients">
-        <div class="bg-black text-white mb-4" v-for="ingredient in selectedIngredients" :key="ingredient.id">
-          <div class="flex justify-between items-center p-4">
-            <span class="flex-1 truncate text-base">{{ ingredient.name }}</span>
-            <div class="flex-1 flex items-center justify-end">
-              <number-input class="w-16 mr-2" v-model="ingredients[ingredient.id]" @input="update"/>
-              <span class="text-sm mr-2">{{ ingredient.portionType }}</span>
-              <delete-icon @click.native="deleteIngredient(ingredient)"/>
-            </div>
-          </div>
-          <macro-bar class="p-4" :calories="(ingredient.calories / ingredient.portionAmount) * ingredients[ingredient.id]" :protein="(ingredient.protein / ingredient.portionAmount) * ingredients[ingredient.id]" :carbs="(ingredient.carbs / ingredient.portionAmount) * ingredients[ingredient.id]" :fat="(ingredient.fat / ingredient.portionAmount) * ingredients[ingredient.id]"/>
-        </div>
+        <macro-item-counter v-for="ingredient in selectedIngredients" :key="ingredient.id" v-model="ingredients[ingredient.id]" @input="update" :item="ingredient" @delete="deleteIngredient(ingredient)"/>
         <div class="flex justify-center">
-          <v-button background="bg-white" background-hover="hover:bg-grey-light" font-color="text-black" @click.native="showIngredientModal = true" :disabled="!availableIngredients.length">
-            <add-icon class="text-black mr-1"/><span>Ingredient</span>
-          </v-button>
+          <add-button label="Recipe" @click.native="showIngredientModal = true" :disabled="!availableIngredients.length"/>
         </div>
       </card>
       <card class="bg-theme-black-2 mb-4" title="Recipes">
-        <div class="bg-black text-white mb-4" v-for="recipe in selectedRecipes" :key="recipe.id">
-          <div class="flex justify-between items-center p-4">
-            <span class="flex-1 truncate text-base">{{ recipe.name }}</span>
-            <div class="flex-1 flex items-center justify-end">
-              <number-input class="w-16 mr-2" v-model="recipes[recipe.id]" @input="update"/>
-              <delete-icon @click.native="deleteRecipe(recipe)"/>
-            </div>
-          </div>
-          <macro-bar class="p-4" :calories="recipe.calories* recipes[recipe.id]" :protein="recipe.protein * recipes[recipe.id]" :carbs="recipe.carbs * recipes[recipe.id]" :fat="recipe.fat * recipes[recipe.id]"/>
-        </div>
+        <macro-item-counter v-for="recipe in selectedRecipes" :key="recipe.id" v-model="recipes[recipe.id]" @input="update" :item="recipe" @delete="deleteRecipe(recipe)"/>
         <div class="flex justify-center">
-          <v-button background="bg-white" background-hover="hover:bg-grey-light" font-color="text-black" @click.native="showRecipeModal = true" :disabled="!availableRecipes.length">
-            <add-icon class="text-black mr-1"/><span>Recipe</span>
-          </v-button>
+          <add-button label="Recipe" @click.native="showRecipeModal = true" :disabled="!availableRecipes.length"/>
         </div>
       </card>
       <v-button class="w-full" @click.native="() => $emit('save')" :disabled="!isValid">{{ saveText }}</v-button>
     </div>
-    <picker-modal v-if="showIngredientModal" title="Available Ingredients" search-text="gwegwg" :macro-models="availableIngredients" @select="selectIngredient" @close="showIngredientModal = false"/>
-    <picker-modal v-if="showRecipeModal" title="Available Recipes" search-text="gwegwg" :macro-models="availableRecipes" @select="selectRecipe" @close="showRecipeModal = false"/>
+    <picker-modal v-if="showIngredientModal" title="Available Ingredients" search-text="Search Ingredients..." :macro-models="availableIngredients" @select="selectIngredient" @close="showIngredientModal = false"/>
+    <picker-modal v-if="showRecipeModal" title="Available Recipes" search-text="Search Recipes..." :macro-models="availableRecipes" @select="selectRecipe" @close="showRecipeModal = false"/>
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
-import { has, omit, difference } from 'lodash'
+import { has, omit, differenceBy } from 'lodash'
 import FormMixin from '@/mixins/form'
-import MacroBar from '@/components/shared/MacroBar'
+import Meal from '@/models/Meal'
+import MealIngredient from '@/models/MealIngredient'
+import MealRecipe from '@/models/MealRecipe'
 import Card from '@/components/shared/Card'
 import TextInput from '@/components/shared/inputs/TextInput'
+import AddButton from '@/components/shared/buttons/AddButton'
 import VButton from '@/components/shared/Button'
-import DeleteIcon from '@/components/shared/icons/DeleteIcon'
-import AddIcon from '@/components/shared/icons/AddIcon'
 import NumberInput from '@/components/shared/inputs/NumberInput'
 import ValidationError from '@/components/shared/ValidationError'
 import PickerModal from '@/components/shared/modals/PickerModal'
+import MacroItemCounter from '@/components/shared/macro_items/MacroItemCounter'
 
 export default {
     name: 'meal-form',
-    components: { MacroBar, NumberInput, TextInput, VButton, ValidationError, Card, DeleteIcon, AddIcon, PickerModal },
+    components: { NumberInput, TextInput, AddButton, VButton, ValidationError, Card, PickerModal, MacroItemCounter },
     mixins: [ FormMixin ],
     props: {
         value: {
@@ -78,6 +57,7 @@ export default {
     },
     data () {
         return {
+            id: null,
             name: null,
             ingredients: {},
             recipes: {},
@@ -94,16 +74,30 @@ export default {
             return this.formIsValid && (this.selectedIngredients.length > 0 || this.selectedRecipes.length > 0)
         },
         availableIngredients () {
-            return difference(this.processedIngredients, this.selectedIngredients)
+            return differenceBy(this.processedIngredients, this.selectedIngredients, ingredient => ingredient.id)
         },
         availableRecipes () {
-            return difference(this.processedRecipes, this.selectedRecipes)
+            return differenceBy(this.processedRecipes, this.selectedRecipes, recipe => recipe.id)
         },
         selectedIngredients () {
-            return this.processedIngredients.filter((ingredient) => has(this.ingredients, ingredient.id))
+            return this.processedIngredients.filter((ingredient) => has(this.ingredients, ingredient.id)).map((ingredient) => {
+                return new MealIngredient(ingredient, new Meal({
+                    id: this.id,
+                    name: this.name,
+                    ingredients: this.ingredients,
+                    recipes: this.recipes
+                }))
+            })
         },
         selectedRecipes () {
-            return this.processedRecipes.filter((recipe) => has(this.recipes, recipe.id))
+            return this.processedRecipes.filter((recipe) => has(this.recipes, recipe.id)).map((recipe) => {
+                return new MealRecipe(recipe, new Meal({
+                    id: this.id,
+                    name: this.name,
+                    ingredients: this.ingredients,
+                    recipes: this.recipes
+                }))
+            })
         }
     },
     watch: {
@@ -112,6 +106,7 @@ export default {
         }
     },
     async created () {
+        this.id = this.value.id
         this.name = this.value.name
         this.ingredients = this.value.ingredients
         this.recipes = this.value.recipes
@@ -140,11 +135,12 @@ export default {
             this.update()
         },
         update () {
-            this.$emit('input', {
+            this.$emit('input', new Meal({
+                id: this.id,
                 name: this.name,
                 ingredients: this.ingredients,
                 recipes: this.recipes
-            })
+            }))
         }
     }
 }

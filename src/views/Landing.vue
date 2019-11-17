@@ -2,7 +2,6 @@
   <div class="wrapper">
     <component :is="landingComponent" :login-handler="toggleShowLogin" :create-account-handler="toggleShowCreateAccount"/>
 
-
     <div class="flex items-center flex-col p-4">
       <div class="text-3xl text-white mb-6">Features</div>
 

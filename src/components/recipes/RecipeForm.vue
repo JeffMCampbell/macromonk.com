@@ -8,47 +8,39 @@
           <validation-error class="mt-4" v-if="fieldHasError('name')" :error="getFieldError('name')"/>
         </card>
         <card class="bg-theme-black-2 mb-4" title="Ingredients">
-          <div class="bg-black text-white mb-4" v-for="ingredient in selectedIngredients" :key="ingredient.id">
-            <div class="flex justify-between items-center p-4">
-              <span class="flex-1 truncate text-base">{{ ingredient.name }}</span>
-              <div class="flex-1 flex items-center justify-end">
-                <number-input class="w-16 mr-2" v-model="ingredients[ingredient.id]" @input="update"/>
-                <span class="text-sm mr-2">{{ ingredient.portionType }}</span>
-                <delete-icon @click.native="deleteIngredient(ingredient)"/>
-              </div>
-            </div>
-            <macro-bar class="p-4" :calories="(ingredient.calories / ingredient.portionAmount) * ingredients[ingredient.id]" :protein="(ingredient.protein / ingredient.portionAmount) * ingredients[ingredient.id]" :carbs="(ingredient.carbs / ingredient.portionAmount) * ingredients[ingredient.id]" :fat="(ingredient.fat / ingredient.portionAmount) * ingredients[ingredient.id]"/>
-          </div>
+          <macro-item-counter v-for="ingredient in selectedIngredients" :key="ingredient.id" v-model="ingredients[ingredient.id]" @input="update" :item="ingredient" @delete="deleteIngredient(ingredient)"/>
           <div class="flex justify-center">
-            <v-button background="bg-white" background-hover="hover:bg-grey-light" font-color="text-black" @click.native="showModal = true" :disabled="!availableIngredients.length">
-              <add-icon class="text-black mr-1"/><span>Ingredient</span>
-            </v-button>
+            <add-button label="Ingredient" @click.native="showModal = true" :disabled="!availableIngredients.length"/>
           </div>
         </card>
         <v-button class="w-full" @click.native="() => $emit('save')" :disabled="!isValid">{{ saveText }}</v-button>
       </div>
     </div>
-    <picker-modal v-if="showModal" title="Available Ingredients" search-text="gwegwg" :macro-models="availableIngredients" @select="selectIngredient" @close="showModal = false"/>
+    <picker-modal v-if="showModal" title="Available Ingredients" search-text="Search Ingredeints..." :macro-models="availableIngredients" @select="selectIngredient" @close="showModal = false"/>
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
-import { has, omit, difference } from 'lodash'
+import { has, omit, differenceBy } from 'lodash'
 import FormMixin from '@/mixins/form'
+import Recipe from '@/models/Recipe'
+import RecipeIngredient from '@/models/RecipeIngredient'
 import Card from '@/components/shared/Card'
-import MacroBar from '@/components/shared/MacroBar'
+import MacroBar from '@/components/shared/macro_items/MacroBar'
 import TextInput from '@/components/shared/inputs/TextInput'
+import AddButton from '@/components/shared/buttons/AddButton'
 import VButton from '@/components/shared/Button'
 import DeleteIcon from '@/components/shared/icons/DeleteIcon'
 import AddIcon from '@/components/shared/icons/AddIcon'
 import NumberInput from '@/components/shared/inputs/NumberInput'
 import ValidationError from '@/components/shared/ValidationError'
 import PickerModal from '@/components/shared/modals/PickerModal'
+import MacroItemCounter from '@/components/shared/macro_items/MacroItemCounter'
 
 export default {
     name: 'recipe-form',
-    components: { MacroBar, NumberInput, TextInput, VButton, ValidationError, Card, DeleteIcon, AddIcon, PickerModal },
+    components: { MacroBar, NumberInput, TextInput, VButton, AddButton, ValidationError, Card, DeleteIcon, AddIcon, PickerModal, MacroItemCounter },
     mixins: [ FormMixin ],
     props: {
         value: {
@@ -62,6 +54,7 @@ export default {
     },
     data () {
         return {
+            id: null,
             name: null,
             ingredients: {},
             showModal: false
@@ -69,24 +62,26 @@ export default {
     },
     computed: {
         ...mapGetters({
-            vuexIngredients: 'processedIngredients'
+            processedIngredients: 'processedIngredients'
         }),
         isValid () {
             return this.formIsValid && this.selectedIngredients.length > 0
         },
         selectedIngredients () {
-            return this.vuexIngredients.filter((ingredient) => has(this.ingredients, ingredient.id))
+            return this.processedIngredients.filter((ingredient) => has(this.ingredients, ingredient.id)).map((ingredient) => {
+                return new RecipeIngredient(ingredient, new Recipe({
+                    id: this.id,
+                    name: this.name,
+                    ingredients: this.ingredients
+                }))
+            })
         },
         availableIngredients () {
-            return difference(this.vuexIngredients, this.selectedIngredients)
-        }
-    },
-    watch: {
-        isValid: function () {
-            this.$emit('validation', this.isValid)
+            return differenceBy(this.processedIngredients, this.selectedIngredients, ingredient => ingredient.id)
         }
     },
     async created () {
+        this.id = this.value.id
         this.name = this.value.name
         this.ingredients = this.value.ingredients
         await this.validateForm()
@@ -103,10 +98,11 @@ export default {
             this.update()
         },
         update () {
-            this.$emit('input', {
+            this.$emit('input', new Recipe({
+                id: this.id,
                 name: this.name,
                 ingredients: this.ingredients
-            })
+            }))
         }
     }
 }

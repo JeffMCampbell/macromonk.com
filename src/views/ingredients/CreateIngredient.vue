@@ -9,11 +9,10 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations } from 'vuex'
-import IngredientService from '@/services/ingredient-service'
+import { mapGetters, mapMutations, mapActions } from 'vuex'
 import ViewHeader from '@/components/shared/ViewHeader'
 import IngredientForm from '@/components/ingredients/IngredientForm'
-import MacroCard from '@/components/shared/MacroCard'
+import MacroCard from '@/components/shared/macro_items/MacroCard'
 
 export default {
     name: 'create-ingredient',
@@ -32,18 +31,13 @@ export default {
             }
         }
     },
-    computed: {
-        ...mapGetters({
-            isDesktop: 'isDesktop'
-        })
-    },
+    computed: mapGetters(['isDesktop']),
     methods: {
-        ...mapMutations({
-            setDashboardLoading: 'setDashboardLoading'
-        }),
+        ...mapMutations(['setDashboardLoading']),
+        ...mapActions(['createIngredient']),
         async create () {
             this.setDashboardLoading(true)
-            const ingredient = await IngredientService.addIngredient(this.ingredient)
+            const ingredient = await this.createIngredient(this.ingredient)
             this.setDashboardLoading(false)
             this.$router.push({ name: 'view-ingredient', params: { ingredientId: ingredient.id } })
         }

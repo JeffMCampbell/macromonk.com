@@ -1,18 +1,25 @@
 <template>
-  <input
+  <vue-numeric
     class="shadow appearance-none rounded py-2 px-3 bg-grey-darkest text-grey-lighter leading-tight focus:outline-none focus:shadow-outline"
-    type="text"
-    ref="inputRef"
+    separator=","
+    :empty-value="0"
+    :precision="precision"
+    :min="min"
+    :max="max"
     :value="value"
-    @keypress="onlyNumber"
-    @input="updated">
+    @input="newValue => $emit('input', newValue)"
+  />
+
 </template>
 
 <script>
-// import { floor } from 'lodash'
+import VueNumeric from 'vue-numeric'
 
 export default {
     name: 'number-input',
+    components: {
+        VueNumeric
+    },
     props: {
         value: { type: null, default: null },
         precision: {
@@ -25,40 +32,11 @@ export default {
         },
         min: {
             type: Number,
-            default: null
+            default: 0
         },
         max: {
             type: Number,
-            default: null
-        }
-    },
-    methods: {
-        updated ($event) {
-            let value = $event.target.value
-
-            const indexOfDecimal = value.indexOf('.')
-
-            if (indexOfDecimal >= 0) {
-                value = value.substring(0, indexOfDecimal) + value.substring(indexOfDecimal, indexOfDecimal + this.precision + 1)
-            }
-
-            const parsed = value
-
-            if (isNaN(parsed) || parsed <= 0) {
-                this.$emit('input', null)
-                this.$refs.inputRef.value = ''
-                return
-            }
-
-            this.$refs.inputRef.value = parsed
-            this.$emit('input', parseFloat(parsed))
-        },
-        onlyNumber ($event) {
-            let keyCode = ($event.keyCode ? $event.keyCode : $event.which)
-
-            if ((keyCode < 48 || keyCode > 57) && keyCode !== 46) {
-                $event.preventDefault()
-            }
+            default: 100000
         }
     }
 }

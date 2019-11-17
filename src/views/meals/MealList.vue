@@ -12,7 +12,7 @@ import { mapGetters } from 'vuex'
 import { includes } from 'lodash'
 import ViewHeader from '@/components/shared/ViewHeader'
 import TableHeader from '@/components/shared/TableHeader'
-import MacroGrid from '@/components/shared/MacroGrid'
+import MacroGrid from '@/components/shared/macro_items/MacroGrid'
 
 export default {
     name: 'meals',

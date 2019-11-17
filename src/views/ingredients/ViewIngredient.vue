@@ -1,23 +1,32 @@
 <template>
   <div>
-    <view-header :title="ingredient.name" :bread-crumbs="breadCrumbs" :options="options"/>
+    <view-header :title="ingredient.name" sub-title="Ingredient" :bread-crumbs="breadCrumbs" :options="options"/>
     <div class="flex flex-col md:flex-row">
       <div class="flex-1">
         <card class="bg-theme-black-2 mb-4" title="Portion">
           <div class="text-white text-base">{{ ingredient.portionAmount }} {{ ingredient.portionType }}</div>
         </card>
-        <card class="bg-theme-black-2 mb-4" :title="`Contained in Recipes (${recipes.length})`">
-          <macro-grid :items="recipes" @selected="(recipe) => $router.push({ name: 'view-recipe', params: { recipeId: recipe.id } })" v-if="recipes.length"/>
-          <div class="text-white text-center text-sm italic" v-else>Ingredient is not in any recipes.</div>
-        </card>
-        <card class="bg-theme-black-2 mb-4" :title="`Contained in Meals (${meals.length})`">
-          <macro-grid :items="meals" @selected="(meal) => $router.push({ name: 'view-meal', params: { mealId: meal.id } })" v-if="meals.length"/>
-          <div class="text-white text-center text-sm italic" v-else>Ingredient is not in any meals.</div>
-        </card>
-        <card class="bg-theme-black-2 mb-4" :title="`Contained in Days (${days.length})`">
-          <macro-grid :items="days" @selected="(day) => $router.push({ name: 'view-day', params: { dayId: day.id } })" v-if="days.length"/>
-          <div class="text-white text-center text-sm italic" v-else>Ingredient is not in any days.</div>
-        </card>
+        <macro-grid-card
+          :title="`Contained in Recipes (${recipes.length})`"
+          tool-tip="Recipes that contain this ingredient and the macros this ingredient makes up within that recipe."
+          :items="recipes"
+          @selected="(recipe) => $router.push({ name: 'view-recipe', params: { recipeId: recipe.id } })"
+          empty-text="Ingredient is not in any recipes."
+        />
+        <macro-grid-card
+          :title="`Contained in Meals (${meals.length})`"
+          tool-tip="Meals that contain this ingredient and the macros this ingredient makes up within that meal."
+          :items="meals"
+          @selected="(meal) => $router.push({ name: 'view-meal', params: { mealId: meal.id } })"
+          empty-text="Ingredient is not in any meals."
+        />
+        <macro-grid-card
+          :title="`Contained in Days (${days.length})`"
+          tool-tip="Days that contain this ingredient and the macros this ingredient makes up within that day."
+          :items="days"
+          @selected="(day) => $router.push({ name: 'view-day', params: { dayId: day.id } })"
+          empty-text="Ingredient is not in any days."
+        />
       </div>
       <macro-card class="self-start" :calories="ingredient.calories" :protein="ingredient.protein" :carbs="ingredient.carbs" :fat="ingredient.fat"/>
     </div>
@@ -25,27 +34,27 @@
       v-if="showDeleteModal"
       header-text="Are you sure you want to delete this ingredient?"
       sub-text="This is will modify any recipes, meals & days containing this ingredient."
-      @confirmed="deleteIngredient"
+      @confirmed="deleteConfirmed"
       @close="() => showDeleteModal = false"
     />
   </div>
 </template>
 
 <script>
-import { mapGetters, mapMutations } from 'vuex'
-import IngredientService from '@/services/ingredient-service'
+import { mapGetters, mapMutations, mapActions } from 'vuex'
 import IngredientRecipe from '@/models/IngredientRecipe'
 import IngredientMeal from '@/models/IngredientMeal'
 import IngredientDay from '@/models/IngredientDay'
 import ViewHeader from '@/components/shared/ViewHeader'
-import MacroCard from '@/components/shared/MacroCard'
+import MacroCard from '@/components/shared/macro_items/MacroCard'
+import MacroGridCard from '@/components/shared/macro_items/MacroGridCard'
 import Card from '@/components/shared/Card'
 import ConfirmModal from '@/components/shared/modals/ConfirmModal'
-import MacroGrid from '@/components/shared/MacroGrid'
+import MacroGrid from '@/components/shared/macro_items/MacroGrid'
 
 export default {
     name: 'view-ingredient',
-    components: { ViewHeader, MacroCard, Card, ConfirmModal, MacroGrid },
+    components: { ViewHeader, MacroCard, Card, ConfirmModal, MacroGrid, MacroGridCard },
     props: {
         ingredientId: {
             type: String,
@@ -70,12 +79,7 @@ export default {
         }
     },
     computed: {
-        ...mapGetters({
-            getIngredient: 'getIngredient',
-            recipesForIngredient: 'recipesForIngredient',
-            mealsForIngredientIncludingRecipes: 'mealsForIngredientIncludingRecipes',
-            daysForIngredient: 'daysForIngredient'
-        }),
+        ...mapGetters(['getIngredient', 'recipesForIngredient', 'mealsForIngredientIncludingRecipes', 'daysForIngredient']),
         ingredient () {
             return this.getIngredient(this.ingredientId)
         },
@@ -96,12 +100,11 @@ export default {
         if (!this.ingredient) this.$router.replace({ name: 'ingredients' })
     },
     methods: {
-        ...mapMutations({
-            setDashboardLoading: 'setDashboardLoading'
-        }),
-        async deleteIngredient () {
+        ...mapMutations(['setDashboardLoading']),
+        ...mapActions(['deleteIngredient']),
+        async deleteConfirmed () {
             this.setDashboardLoading(true)
-            await IngredientService.deleteIngredient(this.ingredientId)
+            await this.deleteIngredient(this.ingredientId)
             this.setDashboardLoading(false)
             this.$router.push({ name: 'ingredients' })
         }

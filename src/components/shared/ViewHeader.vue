@@ -9,11 +9,13 @@
       </div>
       <div class="self-start relative" v-if="options">
         <traffic-light-icon class="text-white" @click.native="showMenu = !showMenu"/>
-        <options-menu v-if="showMenu" :options="options" @clickAway="() => showMenu = false"/>
+        <options-menu v-if="showMenu" :options="options" @clickAway="() => showMenu = false" @optionClicked="() => showMenu = false"/>
       </div>
     </div>
-    <div class="text-white text-center font-bold truncate text-3xl mb-8" v-if="title">{{ title }}</div>
-    <div class="text-white truncate text-xl mb-8" v-if="subTitle">{{ subTitle }}</div>
+    <div class="text-white text-center mb-8">
+      <div class="font-bold truncate text-3xl mb-2" v-if="title">{{ title }}</div>
+      <div class="truncate text-lg" v-if="subTitle">{{ subTitle }}</div>
+    </div>
   </div>
 </template>
 

@@ -1,27 +1,20 @@
 <template>
   <div class="w-full">
     <div class="flex-1 self-start mr-2">
-      <card class="bg-theme-black-2 mb-4">
+      <card class="bg-theme-black-2 mb-4" title="Basic Info">
         <label class="block text-white text-xs mb-4" for="name">Name *</label>
         <text-input class="w-full" v-model="name" placeholder="Name" name="name" v-validate="'required'" data-vv-delay="500"/>
         <validation-error class="mt-4" v-if="fieldHasError('name')" :error="getFieldError('name')"/>
-        <label class="block text-white text-xs mt-8 mb-4" for="name">Meals *</label>
-        <div class="bg-black text-white p-4 mb-4" v-for="(meal, index) in selectedMeals" :key="index">
-          <div class="flex items-center mb-4">
-            <span class="flex-1 truncate text-base mr-2">{{ meal.name }}</span>
-            <delete-icon @click.native="deleteMeal(index)"/>
-          </div>
-          <macro-bar :calories="meal.calories" :protein="meal.protein" :carbs="meal.carbs" :fat="meal.fat"/>
-        </div>
+      </card>
+      <card class="bg-theme-black-2 mb-4" title="Meals">
+        <macro-item v-for="(meal, index) in selectedMeals" :key="index" :item="meal" :deletable="true" @delete="deleteMeal(index)"/>
         <div class="flex justify-center">
-          <v-button background="bg-white" background-hover="hover:bg-grey-light" font-color="text-black" @click.native="showModal = true" :disabled="!availableMeals.length">
-            <add-icon class="text-black mr-1"/><span>Meal</span>
-          </v-button>
+          <add-button label="Meal" @click.native="showModal = true" :disabled="!availableMeals.length"/>
         </div>
       </card>
       <v-button class="w-full" @click.native="() => $emit('save')" :disabled="!isValid">{{ saveText }}</v-button>
     </div>
-    <picker-modal v-if="showModal" title="Available Meals" search-text="gwegwg" :macro-models="availableMeals" @select="selectMeal" @close="showModal = false"/>
+    <picker-modal v-if="showModal" title="Available Meals" search-text="Search Days..." :macro-models="availableMeals" @select="selectMeal" @close="showModal = false"/>
   </div>
 </template>
 
@@ -30,18 +23,19 @@ import { mapGetters } from 'vuex'
 import { find } from 'lodash'
 import FormMixin from '@/mixins/form'
 import Card from '@/components/shared/Card'
-import MacroBar from '@/components/shared/MacroBar'
+import MacroItem from '@/components/shared/macro_items/MacroItem'
 import TextInput from '@/components/shared/inputs/TextInput'
 import NumberInput from '@/components/shared/inputs/NumberInput'
 import DeleteIcon from '@/components/shared/icons/DeleteIcon'
-import AddIcon from '@/components/shared/icons/AddIcon'
 import VButton from '@/components/shared/Button'
+import AddButton from '@/components/shared/buttons/AddButton'
 import ValidationError from '@/components/shared/ValidationError'
 import PickerModal from '@/components/shared/modals/PickerModal'
+import Day from '@/models/Day'
 
 export default {
     name: 'day-form',
-    components: { MacroBar, NumberInput, TextInput, PickerModal, AddIcon, DeleteIcon, ValidationError, Card, VButton },
+    components: { NumberInput, TextInput, PickerModal, AddButton, DeleteIcon, ValidationError, Card, VButton, MacroItem },
     mixins: [ FormMixin ],
     props: {
         value: {
@@ -55,15 +49,14 @@ export default {
     },
     data () {
         return {
+            id: null,
             name: null,
             meals: [],
             showModal: false
         }
     },
     computed: {
-        ...mapGetters({
-            processedMeals: 'processedMeals'
-        }),
+        ...mapGetters(['processedMeals']),
         selectedMeals () {
             return this.meals.map((mealId) => find(this.processedMeals, { id: mealId }))
         },
@@ -80,6 +73,7 @@ export default {
         }
     },
     async created () {
+        this.id = this.value.id
         this.name = this.value.name
         this.meals = this.value.meals
 
@@ -98,10 +92,11 @@ export default {
             this.update()
         },
         update () {
-            this.$emit('input', {
+            this.$emit('input', new Day({
+                id: this.id,
                 name: this.name,
                 meals: this.meals
-            })
+            }))
         }
     }
 }

@@ -1,34 +1,35 @@
-import store from '@/store'
+import { mapValues, pick } from 'lodash'
 import firestore from '@/firebase/firestore'
 
-const refreshDays = async function () {
-    const days = await firestore.getSubCollection('users', store.state.id, 'days')
-    store.commit('setDays', days)
+const DAY_KEYS = ['name', 'meals']
+
+const listDays = function (userId) {
+    return firestore.getSubCollection('users', userId, 'days')
 }
 
-const addDay = async function (data) {
-    await firestore.addDocumentToSubCollection('users', store.state.id, 'days', data)
-    await refreshDays()
+const createDay = function (userId, data) {
+    return firestore.addDocumentToSubCollection('users', userId, 'days', pick(data, DAY_KEYS))
 }
 
-const getDays = function () {
-    return firestore.getSubCollection('users', store.state.id, 'days')
+const updateDay = function (userId, dayId, data) {
+    return firestore.updateDocumentFromSubCollection('users', userId, 'days', dayId, pick(data, DAY_KEYS))
 }
 
-const updateDay = async function (dayId, data) {
-    await firestore.updateDocumentFromSubCollection('users', store.state.id, 'days', dayId, Object.assign({}, data))
-    await refreshDays()
-}
+const deleteDay = async function (userId, dayId, schedule) {
+    const newSchedule = mapValues(schedule, (id) => {
+        return id === dayId ? null : id
+    })
 
-const deleteDay = async function (dayId) {
-    await firestore.deleteDocumentFromSubCollection('users', store.state.id, 'days', dayId)
-    await refreshDays()
+    if (newSchedule !== schedule) {
+        await firestore.updateDocument('users', userId, { schedule: newSchedule })
+    }
+
+    return firestore.deleteDocumentFromSubCollection('users', userId, 'days', dayId)
 }
 
 export default {
-    refreshDays,
-    addDay,
-    getDays,
+    listDays,
+    createDay,
     updateDay,
     deleteDay
 }

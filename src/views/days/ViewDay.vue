@@ -1,35 +1,37 @@
 <template>
   <div>
-    <view-header :title="day.name" :bread-crumbs="breadCrumbs" :options="options"/>
+    <view-header :title="day.name" sub-title="Day" :bread-crumbs="breadCrumbs" :options="options"/>
     <div class="flex flex-col md:flex-row">
       <div class="flex-1">
-        <card class="bg-theme-black-2 mb-4" :title="`Meal List (${meals.length})`">
-          <macro-grid :items="meals" @selected="(meal) => $router.push({ name: 'view-meal', params: { mealId: meal.id } })"/>
-        </card>
+        <macro-grid-card
+          :title="`Meals (${meals.length})`"
+          tool-tip="Meals within this day and the macros each meal makes up within this day."
+          :items="meals"
+          @selected="(meal) => $router.push({ name: 'view-meal', params: { mealId: meal.id } })"
+          empty-text="Day has no meals."
+        />
       </div>
       <macro-card class="self-start" :calories="day.calories" :protein="day.protein" :carbs="day.carbs" :fat="day.fat"/>
     </div>
     <confirm-modal
       v-if="showDeleteModal"
       header-text="Are you sure you want to delete this day?"
-      @confirmed="deleteDay"
+      @confirmed="deleteConfirmed"
       @close="() => showDeleteModal = false"
     />
   </div>
 </template>
 
 <script>
-import { mapGetters, mapMutations } from 'vuex'
-import DayService from '@/services/day-service'
+import { mapGetters, mapMutations, mapActions } from 'vuex'
 import ViewHeader from '@/components/shared/ViewHeader'
-import MacroCard from '@/components/shared/MacroCard'
-import MacroGrid from '@/components/shared/MacroGrid'
-import Card from '@/components/shared/Card'
+import MacroCard from '@/components/shared/macro_items/MacroCard'
+import MacroGridCard from '@/components/shared/macro_items/MacroGridCard'
 import ConfirmModal from '@/components/shared/modals/ConfirmModal'
 
 export default {
     name: 'view-day',
-    components: { ViewHeader, MacroCard, MacroGrid, Card, ConfirmModal },
+    components: { ViewHeader, MacroCard, MacroGridCard, ConfirmModal },
     props: {
         dayId: {
             type: String,
@@ -54,10 +56,7 @@ export default {
         }
     },
     computed: {
-        ...mapGetters({
-            getDay: 'getDay',
-            mealsForDay: 'mealsForDay'
-        }),
+        ...mapGetters(['getDay', 'mealsForDay']),
         day () {
             return this.getDay(this.dayId)
         },
@@ -69,12 +68,11 @@ export default {
         }
     },
     methods: {
-        ...mapMutations({
-            setDashboardLoading: 'setDashboardLoading'
-        }),
-        async deleteDay () {
+        ...mapMutations(['setDashboardLoading']),
+        ...mapActions(['deleteDay']),
+        async deleteConfirmed () {
             this.setDashboardLoading(true)
-            await DayService.deleteDay(this.dayId)
+            await this.deleteDay(this.dayId)
             this.setDashboardLoading(false)
             this.$router.push({ name: 'days' })
         }

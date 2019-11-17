@@ -1,50 +1,39 @@
-import { map, omit } from 'lodash'
-import store from '@/store'
+import { map, omit, pick } from 'lodash'
 import firestore from '@/firebase/firestore'
-import recipeService from '@/services/recipe-service'
-import mealService from '@/services/meal-service'
 
-const refreshIngredients = async function () {
-    const ingredients = await firestore.getSubCollection('users', store.state.id, 'ingredients')
-    store.commit('setIngredients', ingredients)
+const INGREDIENT_KEYS = ['name', 'portionAmount', 'portionType', 'calories', 'protein', 'carbs', 'fat']
+
+const listIngredients = function (userId) {
+    return firestore.getSubCollection('users', userId, 'ingredients')
 }
 
-const addIngredient = async function (data) {
-    const ingredient = await firestore.addDocumentToSubCollection('users', store.state.id, 'ingredients', data)
-    await refreshIngredients()
-    return ingredient
+const createIngredient = function (userId, data) {
+    return firestore.addDocumentToSubCollection('users', userId, 'ingredients', pick(data, INGREDIENT_KEYS))
 }
 
-const updateIngredient = async function (ingredientId, data) {
+const updateIngredient = async function (userId, ingredientId, data) {
     const batch = firestore.firestore.batch()
-
-    const ingredientReference = firestore.firestore.collection('users').doc(store.state.id).collection('ingredients').doc(ingredientId)
-    batch.update(ingredientReference, Object.assign({}, data))
+    const ingredientReference = firestore.firestore.collection('users').doc(userId).collection('ingredients').doc(ingredientId)
+    batch.update(ingredientReference, pick(data, INGREDIENT_KEYS))
     await batch.commit()
-
-    await refreshIngredients()
 }
 
-const deleteIngredient = async function (ingredientId) {
+const deleteIngredient = async function (userId, ingredientId, recipes, meals) {
     const batch = firestore.firestore.batch()
 
-    const ingredientReference = firestore.firestore.collection('users').doc(store.state.id).collection('ingredients').doc(ingredientId)
+    const ingredientReference = firestore.firestore.collection('users').doc(userId).collection('ingredients').doc(ingredientId)
     batch.delete(ingredientReference)
 
-    const recipes = store.getters['recipesForIngredient'](ingredientId)
-
     map(recipes, (recipe) => {
-        const recipeReference = firestore.firestore.collection('users').doc(store.state.id).collection('recipes').doc(recipe.id)
+        const recipeReference = firestore.firestore.collection('users').doc(userId).collection('recipes').doc(recipe.id)
 
         batch.update(recipeReference, {
             ingredients: omit(recipe.ingredients, ingredientId)
         })
     })
 
-    const meals = store.getters['mealsForIngredient'](ingredientId)
-
     map(meals, (meal) => {
-        const mealReference = firestore.firestore.collection('users').doc(store.state.id).collection('meals').doc(meal.id)
+        const mealReference = firestore.firestore.collection('users').doc(userId).collection('meals').doc(meal.id)
 
         batch.update(mealReference, {
             ingredients: omit(meal.ingredients, ingredientId)
@@ -52,14 +41,11 @@ const deleteIngredient = async function (ingredientId) {
     })
 
     await batch.commit()
-    await mealService.refreshMeals()
-    await recipeService.refreshRecipes()
-    await refreshIngredients()
 }
 
 export default {
-    refreshIngredients,
-    addIngredient,
+    listIngredients,
+    createIngredient,
     updateIngredient,
     deleteIngredient
 }

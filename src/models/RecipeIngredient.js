@@ -2,7 +2,7 @@ import { get } from 'lodash'
 import MacroModel from '@/models/MacroModel'
 
 export default class extends MacroModel {
-    constructor (recipe, ingredient) {
+    constructor (ingredient, recipe) {
         const portions = get(recipe.ingredients, ingredient.id, 0)
 
         super(

@@ -47,18 +47,18 @@
 
 <script>
 import FormMixin from '@/mixins/form'
+import Ingredient from '@/models/Ingredient'
 import Card from '@/components/shared/Card'
-import MacroBar from '@/components/shared/MacroBar'
-import MacroChart from '@/components/shared/Charts/MacroChart'
 import TextInput from '@/components/shared/inputs/TextInput'
 import NumberInput from '@/components/shared/inputs/NumberInput'
 import PortionTypeSelect from '@/components/shared/inputs/PortionTypeSelect'
 import VButton from '@/components/shared/Button'
 import ValidationError from '@/components/shared/ValidationError'
 
+
 export default {
     name: 'ingredient-form',
-    components: { MacroBar, MacroChart, NumberInput, TextInput, PortionTypeSelect, ValidationError, Card, VButton },
+    components: { NumberInput, TextInput, PortionTypeSelect, ValidationError, Card, VButton },
     mixins: [ FormMixin ],
     props: {
         value: {
@@ -72,6 +72,7 @@ export default {
     },
     data () {
         return {
+            id: null,
             name: null,
             portionAmount: 1,
             portionType: null,
@@ -81,19 +82,8 @@ export default {
             fat: 0
         }
     },
-    computed: {
-        showChart () {
-            return [this.protein, this.carbs, this.fat].reduce((carry, number) => {
-                return carry + (isNaN(number) ? 0 : number)
-            }, 0) > 0
-        }
-    },
-    watch: {
-        formIsValid: function () {
-            this.$emit('validation', this.formIsValid)
-        }
-    },
     async created () {
+        this.id = this.value.id
         this.name = this.value.name
         this.portionAmount = this.value.portionAmount
         this.portionType = this.value.portionType
@@ -108,7 +98,8 @@ export default {
     },
     methods: {
         update () {
-            this.$emit('input', {
+            this.$emit('input', new Ingredient({
+                id: this.id,
                 name: this.name,
                 portionAmount: this.portionAmount,
                 portionType: this.portionType,
@@ -116,7 +107,7 @@ export default {
                 protein: this.protein,
                 carbs: this.carbs,
                 fat: this.fat
-            })
+            }))
         }
     }
 }

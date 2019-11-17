@@ -1,6 +1,6 @@
 <template>
   <div>
-    <view-header :title="original.name" :bread-crumbs="breadCrumbs"/>
+    <view-header :title="original.name" sub-title="Ingredient" :bread-crumbs="breadCrumbs"/>
     <div class="flex flex-row">
       <ingredient-form save-text="Save Ingredient" v-model="ingredient" @save="save"/>
       <macro-card v-if="isDesktop" :calories="ingredient.calories" :protein="ingredient.protein" :carbs="ingredient.carbs" :fat="ingredient.fat"/>
@@ -9,12 +9,11 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations } from 'vuex'
+import { mapGetters, mapMutations, mapActions } from 'vuex'
 import { cloneDeep } from 'lodash'
-import IngredientService from '@/services/ingredient-service'
 import ViewHeader from '@/components/shared/ViewHeader'
 import IngredientForm from '@/components/ingredients/IngredientForm'
-import MacroCard from '@/components/shared/MacroCard'
+import MacroCard from '@/components/shared/macro_items/MacroCard'
 
 export default {
     name: 'edit-ingredient',
@@ -32,10 +31,7 @@ export default {
         }
     },
     computed: {
-        ...mapGetters({
-            getIngredient: 'getIngredient',
-            isDesktop: 'isDesktop'
-        }),
+        ...mapGetters(['getIngredient', 'isDesktop']),
         breadCrumbs () {
             return [{ title: 'Ingredients', route: 'ingredients' }, { title: this.original.name, route: 'view-ingredient', params: { id: this.ingredientId } }, { title: 'Edit', route: 'edit-ingredient', params: { id: this.ingredientId } }]
         }
@@ -52,12 +48,11 @@ export default {
         this.ingredient = cloneDeep(ingredient)
     },
     methods: {
-        ...mapMutations({
-            setDashboardLoading: 'setDashboardLoading'
-        }),
+        ...mapMutations(['setDashboardLoading']),
+        ...mapActions(['updateIngredient']),
         async save () {
             this.setDashboardLoading(true)
-            await IngredientService.updateIngredient(this.ingredientId, this.ingredient)
+            await this.updateIngredient(this.ingredient)
             this.$router.push({ name: 'view-ingredient', params: { ingredientId: this.ingredientId } })
             this.setDashboardLoading(false)
         }

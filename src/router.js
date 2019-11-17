@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Landing from './views/Landing.vue'
 import Dashboard from './views/Dashboard.vue'
 import Account from './views/Account.vue'
+import Schedule from './views/Schedule.vue'
 import IngredientList from './views/ingredients/IngredientsList.vue'
 import CreateIngredient from './views/ingredients/CreateIngredient.vue'
 import EditIngredient from './views/ingredients/EditIngredient.vue'
@@ -41,6 +42,12 @@ const router = new Router({
             component: Dashboard,
             meta: { requiresAuth: true },
             children: [
+                {
+                    path: '/schedule',
+                    name: 'schedule',
+                    component: Schedule,
+                    meta: { requiresAuth: true }
+                },
                 {
                     path: '/ingredients',
                     name: 'ingredients',

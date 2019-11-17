@@ -1,16 +1,22 @@
 <template>
   <div>
-    <view-header :title="meal.name" :bread-crumbs="breadCrumbs" :options="options"/>
+    <view-header :title="meal.name" sub-title="Meal" :bread-crumbs="breadCrumbs" :options="options"/>
     <div class="flex flex-col md:flex-row">
       <div class="flex-1">
-        <card class="bg-theme-black-2 mb-4" :title="`Ingredients (${ingredients.length})`">
-          <macro-grid :items="ingredients" @selected="(ingredient) => $router.push({ name: 'view-ingredient', params: { ingredientId: ingredient.id } })" v-if="ingredients.length"/>
-          <div class="text-white text-center text-sm italic" v-else>Meal has no ingredients.</div>
-        </card>
-        <card class="bg-theme-black-2" :title="`Recipes (${recipes.length})`">
-          <macro-grid :items="recipes" @selected="(recipe) => $router.push({ name: 'view-recipe', params: { recipeId: recipe.id } })" v-if="recipes.length"/>
-          <div class="text-white text-center text-sm italic" v-else>Meal has no recipes.</div>
-        </card>
+        <macro-grid-card
+          :title="`Ingredients (${ingredients.length})`"
+          tool-tip="Ingredients within this meal and the macros each ingredient makes up within this meal."
+          :items="ingredients"
+          @selected="(ingredient) => $router.push({ name: 'view-ingredient', params: { ingredientId: ingredient.id } })"
+          empty-text="Meal has no ingredients."
+        />
+        <macro-grid-card
+          :title="`Recipes (${recipes.length})`"
+          tool-tip="Recipes within this meal and the macros each recipe makes up within this meal."
+          :items="recipes"
+          @selected="(recipe) => $router.push({ name: 'view-recipe', params: { recipeId: recipe.id } })"
+          empty-text="Meal has no recipes."
+        />
       </div>
       <macro-card class="self-start" :calories="meal.calories" :protein="meal.protein" :carbs="meal.carbs" :fat="meal.fat"/>
     </div>
@@ -18,26 +24,24 @@
       v-if="showDeleteModal"
       header-text="Are you sure you want to delete this meal?"
       sub-text="This is will modify any days containing this meal."
-      @confirmed="deleteMeal"
+      @confirmed="deleteConfirmed"
       @close="() => showDeleteModal = false"
     />
   </div>
 </template>
 
 <script>
-import { mapGetters, mapMutations } from 'vuex'
-import MealService from '@/services/meal-service'
+import { mapGetters, mapMutations, mapActions } from 'vuex'
 import MealIngredient from '@/models/MealIngredient'
 import MealRecipe from '@/models/MealRecipe'
 import ViewHeader from '@/components/shared/ViewHeader'
-import MacroCard from '@/components/shared/MacroCard'
-import MacroGrid from '@/components/shared/MacroGrid'
-import Card from '@/components/shared/Card'
+import MacroCard from '@/components/shared/macro_items/MacroCard'
+import MacroGridCard from '@/components/shared/macro_items/MacroGridCard'
 import ConfirmModal from '@/components/shared/modals/ConfirmModal'
 
 export default {
     name: 'view-meal',
-    components: { ViewHeader, MacroCard, MacroGrid, Card, ConfirmModal },
+    components: { ViewHeader, MacroCard, MacroGridCard, ConfirmModal },
     props: {
         mealId: {
             type: String,
@@ -62,11 +66,7 @@ export default {
         }
     },
     computed: {
-        ...mapGetters({
-            getMeal: 'getMeal',
-            ingredientsForMeal: 'ingredientsForMeal',
-            recipesForMeal: 'recipesForMeal'
-        }),
+        ...mapGetters(['getMeal', 'ingredientsForMeal', 'recipesForMeal']),
         meal () {
             return this.getMeal(this.mealId)
         },
@@ -84,12 +84,11 @@ export default {
         if (!this.meal) { this.$router.replace({ name: 'meals' }) }
     },
     methods: {
-        ...mapMutations({
-            setDashboardLoading: 'setDashboardLoading'
-        }),
-        async deleteMeal () {
+        ...mapMutations(['setDashboardLoading']),
+        ...mapActions(['deleteMeal']),
+        async deleteConfirmed () {
             this.setDashboardLoading(true)
-            await MealService.deleteMeal(this.mealId)
+            await this.deleteMeal(this.mealId)
             this.setDashboardLoading(false)
             this.$router.push({ name: 'meals' })
         }

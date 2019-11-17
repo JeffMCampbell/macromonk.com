@@ -5,6 +5,6 @@ export default class extends MacroModel {
     constructor (recipe) {
         const macros = MacroCalculator.forRecipe(recipe)
         super(recipe.id, recipe.name, macros.calories, macros.protein, macros.carbs, macros.fat)
-        this.ingredients = recipe.ingredients
+        this.ingredients = recipe.ingredients ? recipe.ingredients : {}
     }
 }

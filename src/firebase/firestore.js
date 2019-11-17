@@ -49,11 +49,11 @@ const getSubCollection = async function (collection, id, subCollection) {
 }
 
 const addDocument = async function (collection, data) {
-    await firebase.firestore().collection(collection).add(data)
+    await firebase.firestore().collection(collection).add(Object.assign({}, data))
 }
 
 const addDocumentToSubCollection = async function (collection, id, subCollection, data) {
-    const documentReference = await firebase.firestore().collection(collection).doc(id).collection(subCollection).add(data)
+    const documentReference = await firebase.firestore().collection(collection).doc(id).collection(subCollection).add(Object.assign({}, data))
 
     return unpackDocumentReference(documentReference)
 }

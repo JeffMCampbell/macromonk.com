@@ -7,7 +7,7 @@
         <macro-bar class="mb-4" :calories="macroModel.calories" :protein="macroModel.protein" :carbs="macroModel.carbs" :fat="macroModel.fat"/>
         <v-button class="self-start w-full" @click.native="$emit('select', macroModel)">Select</v-button>
       </card>
-      <div v-if="!filteredMacroModels.length" class="text-center mt-4">None found</div>
+      <div v-if="!filteredMacroModels.length" class="text-center mt-4">None Found</div>
     </div>
   </modal>
 </template>
@@ -17,7 +17,7 @@ import { includes } from 'lodash'
 import Modal from '@/components/shared/modals/Modal'
 import VButton from '@/components/shared/Button'
 import Card from '@/components/shared/Card'
-import MacroBar from '@/components/shared/MacroBar'
+import MacroBar from '@/components/shared/macro_items/MacroBar'
 import TextInput from '@/components/shared/inputs/TextInput'
 
 export default {
@@ -56,7 +56,7 @@ export default {
 
 <style lang="scss" scoped>
   .picker-modal {
-        height: 450px;
+        max-height: 450px;
         width: 400px;
   }
 </style>
