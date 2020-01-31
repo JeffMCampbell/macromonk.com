@@ -25,18 +25,15 @@ import FormMixin from '@/mixins/form'
 import Recipe from '@/models/Recipe'
 import RecipeIngredient from '@/models/RecipeIngredient'
 import Card from '@/components/shared/Card'
-import MacroBar from '@/components/shared/macro_items/MacroBar'
 import FormField from '@/components/shared/forms/FormField'
 import AddButton from '@/components/shared/buttons/AddButton'
 import VButton from '@/components/shared/Button'
-import DeleteIcon from '@/components/shared/icons/DeleteIcon'
-import AddIcon from '@/components/shared/icons/AddIcon'
 import PickerModal from '@/components/shared/modals/PickerModal'
 import MacroItemCounter from '@/components/shared/macro_items/MacroItemCounter'
 
 export default {
     name: 'recipe-form',
-    components: { MacroBar, FormField, VButton, AddButton, Card, DeleteIcon, AddIcon, PickerModal, MacroItemCounter },
+    components: { FormField, VButton, AddButton, Card, PickerModal, MacroItemCounter },
     mixins: [ FormMixin ],
     props: {
         value: {

@@ -16,6 +16,7 @@ export default class extends MacroModel {
 
         this.portions = portions
         this.portionType = ingredient.portionType
+        this.portionTypeAbbr = ingredient.portionTypeAbbr
     }
 
     get fullName () {

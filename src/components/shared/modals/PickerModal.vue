@@ -3,10 +3,9 @@
     <div class="picker-modal overflow-auto text-white">
       <div class="text-center text-base font-bold mb-6">{{ title }}</div>
       <text-input v-model="search" :placeholder="searchText" class="w-full mb-4"/>
-      <card class="bg-theme-black-2 mb-4" :title="macroModel.fullName" v-for="macroModel in filteredMacroModels" :key="macroModel.id">
-        <macro-bar class="mb-4" :calories="macroModel.calories" :protein="macroModel.protein" :carbs="macroModel.carbs" :fat="macroModel.fat"/>
-        <v-button class="self-start w-full" @click.native="$emit('select', macroModel)">Select</v-button>
-      </card>
+      <macro-item class="mb-4" v-for="item in filteredMacroModels" :key="item.id" :item="item">
+        <v-button slot="footer" class="self-start w-full" @click.native="$emit('select', item)">Select</v-button>
+      </macro-item>
       <div v-if="!filteredMacroModels.length" class="text-center mt-4">None Found</div>
     </div>
   </modal>
@@ -16,13 +15,12 @@
 import { includes } from 'lodash'
 import Modal from '@/components/shared/modals/Modal'
 import VButton from '@/components/shared/Button'
-import Card from '@/components/shared/Card'
-import MacroBar from '@/components/shared/macro_items/MacroBar'
+import MacroItem from '@/components/shared/macro_items/MacroItem'
 import TextInput from '@/components/shared/inputs/TextInput'
 
 export default {
     name: 'picker-modal',
-    components: { Modal, VButton, Card, MacroBar, TextInput },
+    components: { Modal, VButton, TextInput, MacroItem },
     props: {
         title: {
             type: String,

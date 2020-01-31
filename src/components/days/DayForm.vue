@@ -22,18 +22,15 @@ import { find } from 'lodash'
 import FormMixin from '@/mixins/form'
 import Card from '@/components/shared/Card'
 import MacroItem from '@/components/shared/macro_items/MacroItem'
-import TextInput from '@/components/shared/inputs/TextInput'
-import DeleteIcon from '@/components/shared/icons/DeleteIcon'
 import VButton from '@/components/shared/Button'
 import AddButton from '@/components/shared/buttons/AddButton'
-import ValidationError from '@/components/shared/ValidationError'
 import PickerModal from '@/components/shared/modals/PickerModal'
 import Day from '@/models/Day'
 import FormField from '@/components/shared/forms/FormField'
 
 export default {
     name: 'day-form',
-    components: { TextInput, PickerModal, AddButton, DeleteIcon, ValidationError, Card, VButton, MacroItem, FormField },
+    components: { PickerModal, AddButton, Card, VButton, MacroItem, FormField },
     mixins: [ FormMixin ],
     props: {
         value: {

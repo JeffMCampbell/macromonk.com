@@ -1,24 +1,18 @@
 <template>
-  <div class="bg-black text-white p-4">
-    <div class="flex justify-between mb-4">
-      <span class="flex-1 truncate text-base underline block">{{ item.name }}</span>
-      <div class="flex-1 flex justify-end">
-        <number-input class="w-24 text-right mr-2" :currency="item.portionTypeAbbr" :value="value" @input="(newValue) => $emit('input', newValue)"/>
-        <delete-icon class="text-md" @click.native="$emit('delete')"/>
-      </div>
+  <macro-item :item="item" deletable @delete="$emit('delete')">
+    <div slot="footer" class="flex justify-center">
+      <number-input class="w-32 text-right" :currency="item.portionTypeAbbr" :value="value" @input="(newValue) => $emit('input', newValue)"/>
     </div>
-    <macro-bar :calories="item.calories" :protein="item.protein" :carbs="item.carbs" :fat="item.fat"/>
-  </div>
+  </macro-item>
 </template>
 
 <script>
-import DeleteIcon from '@/components/shared/icons/DeleteIcon'
 import NumberInput from '@/components/shared/inputs/NumberInput'
-import MacroBar from '@/components/shared/macro_items/MacroBar'
+import MacroItem from '@/components/shared/macro_items/MacroItem'
 
 export default {
     name: 'macro-item-counter',
-    components: { NumberInput, DeleteIcon, MacroBar },
+    components: { NumberInput, MacroItem },
     props: {
         item: {
             type: Object,
