@@ -14,7 +14,7 @@
         <v-button class="w-full" @click.native="() => $emit('save')" :disabled="!isValid">{{ saveText }}</v-button>
       </div>
     </div>
-    <picker-modal v-if="showModal" title="Available Ingredients" search-text="Search Ingredeints..." :macro-models="availableIngredients" @select="selectIngredient" @close="showModal = false"/>
+    <picker-modal v-if="showModal" title="Available Ingredients" search-text="Search Ingredeints..." :items="availableIngredients" @select="selectIngredient" @close="showModal = false"/>
   </div>
 </template>
 

@@ -12,7 +12,7 @@
       </card>
       <v-button class="w-full" @click.native="() => $emit('save')" :disabled="!isValid">{{ saveText }}</v-button>
     </div>
-    <picker-modal v-if="showModal" title="Available Meals" search-text="Search Days..." :macro-models="availableMeals" @select="selectMeal" @close="showModal = false"/>
+    <picker-modal v-if="showModal" title="Available Meals" search-text="Search Days..." :items="availableMeals" @select="selectMeal" @close="showModal = false"/>
   </div>
 </template>
 

@@ -13,7 +13,7 @@
         <macro-card class="self-start" title="Total Weekly Macros" :calories="totalMacros.calories" :protein="totalMacros.protein" :carbs="totalMacros.carbs" :fat="totalMacros.fat"/>
       </div>
     </div>
-    <picker-modal v-if="selectedDayKey" title="Available Days" search-text="Seach Days..." :macro-models="processedDays" @select="selectDay" @close="selectedDayKey = null"/>
+    <picker-modal v-if="selectedDayKey" title="Available Days" search-text="Seach Days..." :items="processedDays" @select="selectDay" @close="selectedDayKey = null"/>
   </div>
 </template>
 

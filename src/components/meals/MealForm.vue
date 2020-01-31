@@ -18,8 +18,8 @@
       </card>
       <v-button class="w-full" @click.native="() => $emit('save')" :disabled="!isValid">{{ saveText }}</v-button>
     </div>
-    <picker-modal v-if="showIngredientModal" title="Available Ingredients" search-text="Search Ingredients..." :macro-models="availableIngredients" @select="selectIngredient" @close="showIngredientModal = false"/>
-    <picker-modal v-if="showRecipeModal" title="Available Recipes" search-text="Search Recipes..." :macro-models="availableRecipes" @select="selectRecipe" @close="showRecipeModal = false"/>
+    <picker-modal v-if="showIngredientModal" title="Available Ingredients" search-text="Search Ingredients..." :items="availableIngredients" @select="selectIngredient" @close="showIngredientModal = false"/>
+    <picker-modal v-if="showRecipeModal" title="Available Recipes" search-text="Search Recipes..." :items="availableRecipes" @select="selectRecipe" @close="showRecipeModal = false"/>
   </div>
 </template>
 

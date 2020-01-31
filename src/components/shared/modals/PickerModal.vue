@@ -30,7 +30,7 @@ export default {
             type: String,
             required: true
         },
-        macroModels: {
+        items: {
             type: Array,
             required: true
         }
@@ -43,10 +43,10 @@ export default {
     computed: {
         filteredMacroModels () {
             if (!this.search) {
-                return this.macroModels
+                return this.items
             }
 
-            return this.macroModels.filter((macroModel) => includes(macroModel.name, this.search))
+            return this.items.filter((macroModel) => includes(macroModel.name, this.search))
         }
     }
 }
