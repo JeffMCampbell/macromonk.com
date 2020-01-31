@@ -1,4 +1,6 @@
 import MacroModel from '@/models/MacroModel'
+import portionTypes from '@/resources/portion-types'
+import { get, find } from 'lodash'
 
 export default class extends MacroModel {
     constructor (ingredient) {
@@ -9,6 +11,10 @@ export default class extends MacroModel {
 
     get fullName () {
         return this.nameWithPortionLabel(this.portionAmount)
+    }
+
+    get portionTypeAbbr () {
+        return get(find(portionTypes, { value: this.portionType }), 'abbr')
     }
 
     portionLabel (amount = 1) {

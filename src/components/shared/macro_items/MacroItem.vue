@@ -1,5 +1,5 @@
 <template>
-  <div class="p-4 bg-black text-white">
+  <div class="bg-black text-white p-4">
     <div :class="{'flex justify-between': hasAction}">
       <label v-if="item.fullName" @click="$emit('view')" class="block text-white underline text-sm font-bold mb-6 cursor-pointer">{{ item.fullName }}</label>
       <delete-icon v-if="deletable" class="text-md" @click.native="$emit('delete')"/>

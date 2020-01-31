@@ -2,9 +2,7 @@
   <div class="w-full">
     <div class="flex-1 self-start mr-2">
       <card class="bg-theme-black-2 mb-4" title="Basic Info">
-        <label class="block text-white text-xs mb-4" for="name">Name *</label>
-        <text-input class="w-full" v-model="name" placeholder="Name" name="name" v-validate="'required'" data-vv-delay="500"/>
-        <validation-error class="mt-4" v-if="fieldHasError('name')" :error="getFieldError('name')"/>
+        <form-field input-type="text" v-model="name" label="Name" placeholder="Name" name="name" :validation-error="getFieldError('name')" v-validate="'required'" data-vv-delay="500"/>
       </card>
       <card class="bg-theme-black-2 mb-4" title="Meals">
         <macro-item v-for="(meal, index) in selectedMeals" :key="index" :item="meal" :deletable="true" @delete="deleteMeal(index)"/>
@@ -25,17 +23,17 @@ import FormMixin from '@/mixins/form'
 import Card from '@/components/shared/Card'
 import MacroItem from '@/components/shared/macro_items/MacroItem'
 import TextInput from '@/components/shared/inputs/TextInput'
-import NumberInput from '@/components/shared/inputs/NumberInput'
 import DeleteIcon from '@/components/shared/icons/DeleteIcon'
 import VButton from '@/components/shared/Button'
 import AddButton from '@/components/shared/buttons/AddButton'
 import ValidationError from '@/components/shared/ValidationError'
 import PickerModal from '@/components/shared/modals/PickerModal'
 import Day from '@/models/Day'
+import FormField from '@/components/shared/forms/FormField'
 
 export default {
     name: 'day-form',
-    components: { NumberInput, TextInput, PickerModal, AddButton, DeleteIcon, ValidationError, Card, VButton, MacroItem },
+    components: { TextInput, PickerModal, AddButton, DeleteIcon, ValidationError, Card, VButton, MacroItem, FormField },
     mixins: [ FormMixin ],
     props: {
         value: {

@@ -1,43 +1,29 @@
 <template>
   <div class="flex-1">
     <card class="bg-theme-black-2 mb-4" title="Basic Info">
-      <label class="block text-white text-xs mb-4" for="name">Name *</label>
-      <text-input class="w-full" v-model="name" placeholder="Name" name="name" v-validate="'required'" data-vv-delay="500"/>
-      <validation-error class="mt-4" v-if="fieldHasError('name')" :error="getFieldError('name')"/>
+      <form-field input-type="text" v-model="name" label="Name *" placeholder="Name" name="name" :validation-error="getFieldError('name')" v-validate="'required'" data-vv-delay="500"/>
       <div class="flex mt-4">
         <div class="flex-1">
-          <label class="block text-white text-xs mb-4" for="name">Portion Amount *</label>
-          <number-input class="w-full" placeholder="Portion amount..." name="portionAmount" v-model="portionAmount" :min="0.01" :max="10000" v-validate="'required'" data-vv-delay="500"/>
-          <validation-error class="mt-4" v-if="fieldHasError('portionAmount')" :error="getFieldError('portionAmount')"/>
+          <form-field input-type="number" v-model="portionAmount" label="Portion Amount *" name="portionAmount" :validation-error="getFieldError('portionAmount')" v-validate="'required'" data-vv-delay="500"/>
         </div>
         <div class="flex-1 ml-4">
-          <label class="block text-white text-xs mb-4" for="name">Portion Type *</label>
-          <portion-type-select class="w-full" name="portionType" v-model="portionType" v-validate="'required'" data-vv-delay="500"/>
-          <validation-error class="mt-4" v-if="fieldHasError('portionType')" :error="getFieldError('portionType')"/>
+          <form-field input-type="portionType" v-model="portionType" label="Portion Type *" name="portionType" :validation-error="getFieldError('portionType')" v-validate="'required'" data-vv-delay="500"/>
         </div>
       </div>
       <div class="flex mt-4">
         <div class="flex-1">
-          <label class="block text-white text-xs mb-4" for="name">Calories (kCal) *</label>
-          <number-input class="w-full" placeholder="Calories..." name="calories" v-model="calories" :min="0" :max="10000" v-validate="'required'" data-vv-delay="500"/>
-          <validation-error class="mt-4" v-if="fieldHasError('calories')" :error="getFieldError('calories')"/>
+          <form-field input-type="number" v-model="calories" label="Calories (kCal) *" name="calories" :validation-error="getFieldError('calories')" v-validate="'required'" data-vv-delay="500"/>
         </div>
         <div class="flex-1 ml-4">
-          <label class="block text-white text-xs mb-4" for="name">Protein (g) *</label>
-          <number-input class="w-full" placeholder="Protein..." name="protein" v-model="protein" :min="0" :max="10000" v-validate="'required'" data-vv-delay="500"/>
-          <validation-error class="mt-4" v-if="fieldHasError('protein')" :error="getFieldError('protein')"/>
+          <form-field input-type="number" v-model="protein" label="Protein (g) *" name="protein" :validation-error="getFieldError('protein')" v-validate="'required'" data-vv-delay="500"/>
         </div>
       </div>
       <div class="flex mt-4">
         <div class="flex-1">
-          <label class="block text-white text-xs mb-4" for="name">Carbs (g) *</label>
-          <number-input class="w-full" placeholder="Carbs..." name="carbs" v-model="carbs" :min="0" :max="10000" v-validate="'required'" data-vv-delay="500"/>
-          <validation-error class="mt-4" v-if="fieldHasError('carbs')" :error="getFieldError('carbs')"/>
+          <form-field input-type="number" v-model="carbs" label="Carbs *" name="carbs" :validation-error="getFieldError('carbs')" v-validate="'required'" data-vv-delay="500"/>
         </div>
         <div class="flex-1 ml-4">
-          <label class="block text-white text-xs mb-4" for="name">Fat (g) *</label>
-          <number-input class="w-full" placeholder="Fat..." name="fat" v-model="fat" :min="0" :max="10000" v-validate="'required'" data-vv-delay="500"/>
-          <validation-error class="mt-4" v-if="fieldHasError('fat')" :error="getFieldError('fat')"/>
+          <form-field input-type="number" v-model="fat" label="Fat *" name="fat" :validation-error="getFieldError('fat')" v-validate="'required'" data-vv-delay="500"/>
         </div>
       </div>
     </card>
@@ -49,16 +35,12 @@
 import FormMixin from '@/mixins/form'
 import Ingredient from '@/models/Ingredient'
 import Card from '@/components/shared/Card'
-import TextInput from '@/components/shared/inputs/TextInput'
-import NumberInput from '@/components/shared/inputs/NumberInput'
-import PortionTypeSelect from '@/components/shared/inputs/PortionTypeSelect'
 import VButton from '@/components/shared/Button'
-import ValidationError from '@/components/shared/ValidationError'
-
+import FormField from '@/components/shared/forms/FormField'
 
 export default {
     name: 'ingredient-form',
-    components: { NumberInput, TextInput, PortionTypeSelect, ValidationError, Card, VButton },
+    components: { Card, VButton, FormField },
     mixins: [ FormMixin ],
     props: {
         value: {

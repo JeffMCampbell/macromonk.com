@@ -3,12 +3,10 @@
     <div class="flex">
       <div class="flex-1 self-start mr-2">
         <card class="bg-theme-black-2 mb-4" title="Basic Info">
-          <label class="block text-white text-xs mb-4" for="name">Name *</label>
-          <text-input class="w-full" v-model="name" placeholder="Recipe name..." name="name" v-validate="'required'" data-vv-delay="500"/>
-          <validation-error class="mt-4" v-if="fieldHasError('name')" :error="getFieldError('name')"/>
+          <form-field input-type="text" v-model="name" label="Name *" placeholder="Recipe name..." name="name" :validation-error="getFieldError('name')" v-validate="'required'" data-vv-delay="500"/>
         </card>
         <card class="bg-theme-black-2 mb-4" title="Ingredients">
-          <macro-item-counter v-for="ingredient in selectedIngredients" :key="ingredient.id" v-model="ingredients[ingredient.id]" @input="update" :item="ingredient" @delete="deleteIngredient(ingredient)"/>
+          <macro-item-counter class="mb-4" v-for="ingredient in selectedIngredients" :key="ingredient.id" v-model="ingredients[ingredient.id]" @input="update" :item="ingredient" @delete="deleteIngredient(ingredient)"/>
           <div class="flex justify-center">
             <add-button label="Ingredient" @click.native="showModal = true" :disabled="!availableIngredients.length"/>
           </div>
@@ -28,19 +26,17 @@ import Recipe from '@/models/Recipe'
 import RecipeIngredient from '@/models/RecipeIngredient'
 import Card from '@/components/shared/Card'
 import MacroBar from '@/components/shared/macro_items/MacroBar'
-import TextInput from '@/components/shared/inputs/TextInput'
+import FormField from '@/components/shared/forms/FormField'
 import AddButton from '@/components/shared/buttons/AddButton'
 import VButton from '@/components/shared/Button'
 import DeleteIcon from '@/components/shared/icons/DeleteIcon'
 import AddIcon from '@/components/shared/icons/AddIcon'
-import NumberInput from '@/components/shared/inputs/NumberInput'
-import ValidationError from '@/components/shared/ValidationError'
 import PickerModal from '@/components/shared/modals/PickerModal'
 import MacroItemCounter from '@/components/shared/macro_items/MacroItemCounter'
 
 export default {
     name: 'recipe-form',
-    components: { MacroBar, NumberInput, TextInput, VButton, AddButton, ValidationError, Card, DeleteIcon, AddIcon, PickerModal, MacroItemCounter },
+    components: { MacroBar, FormField, VButton, AddButton, Card, DeleteIcon, AddIcon, PickerModal, MacroItemCounter },
     mixins: [ FormMixin ],
     props: {
         value: {

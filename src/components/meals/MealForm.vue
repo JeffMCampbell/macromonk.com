@@ -2,18 +2,16 @@
   <div class="w-full">
     <div class="flex-1 self-start mr-2">
       <card class="bg-theme-black-2 mb-4" title="Basic Info">
-        <label class="block text-white text-xs mb-4" for="name">Name *</label>
-        <text-input class="w-full" v-model="name" placeholder="Meal name..." name="name" v-validate="'required'" data-vv-delay="500"/>
-        <validation-error class="mt-4" v-if="fieldHasError('name')" :error="getFieldError('name')"/>
+        <form-field input-type="text" v-model="name" label="Name *" placeholder="Meal name..." name="name" :validation-error="getFieldError('name')" v-validate="'required'" data-vv-delay="500"/>
       </card>
       <card class="bg-theme-black-2 mb-4" title="Ingredients">
-        <macro-item-counter v-for="ingredient in selectedIngredients" :key="ingredient.id" v-model="ingredients[ingredient.id]" @input="update" :item="ingredient" @delete="deleteIngredient(ingredient)"/>
+        <macro-item-counter class="mb-4" v-for="ingredient in selectedIngredients" :key="ingredient.id" v-model="ingredients[ingredient.id]" @input="update" :item="ingredient" @delete="deleteIngredient(ingredient)"/>
         <div class="flex justify-center">
           <add-button label="Recipe" @click.native="showIngredientModal = true" :disabled="!availableIngredients.length"/>
         </div>
       </card>
       <card class="bg-theme-black-2 mb-4" title="Recipes">
-        <macro-item-counter v-for="recipe in selectedRecipes" :key="recipe.id" v-model="recipes[recipe.id]" @input="update" :item="recipe" @delete="deleteRecipe(recipe)"/>
+        <macro-item-counter class="mb-4" v-for="recipe in selectedRecipes" :key="recipe.id" v-model="recipes[recipe.id]" @input="update" :item="recipe" @delete="deleteRecipe(recipe)"/>
         <div class="flex justify-center">
           <add-button label="Recipe" @click.native="showRecipeModal = true" :disabled="!availableRecipes.length"/>
         </div>
@@ -33,17 +31,15 @@ import Meal from '@/models/Meal'
 import MealIngredient from '@/models/MealIngredient'
 import MealRecipe from '@/models/MealRecipe'
 import Card from '@/components/shared/Card'
-import TextInput from '@/components/shared/inputs/TextInput'
+import FormField from '@/components/shared/forms/FormField'
 import AddButton from '@/components/shared/buttons/AddButton'
 import VButton from '@/components/shared/Button'
-import NumberInput from '@/components/shared/inputs/NumberInput'
-import ValidationError from '@/components/shared/ValidationError'
 import PickerModal from '@/components/shared/modals/PickerModal'
 import MacroItemCounter from '@/components/shared/macro_items/MacroItemCounter'
 
 export default {
     name: 'meal-form',
-    components: { NumberInput, TextInput, AddButton, VButton, ValidationError, Card, PickerModal, MacroItemCounter },
+    components: { FormField, AddButton, VButton, Card, PickerModal, MacroItemCounter },
     mixins: [ FormMixin ],
     props: {
         value: {

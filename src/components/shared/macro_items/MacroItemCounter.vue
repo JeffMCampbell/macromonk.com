@@ -1,14 +1,13 @@
 <template>
-  <div class="bg-black text-white mb-4">
-    <div class="flex justify-between items-center p-4">
-      <span class="flex-1 truncate text-base">{{ item.name }}</span>
-      <div class="flex-1 flex items-center justify-end">
-        <number-input class="w-16 mr-2" :value="value" @input="(newValue) => $emit('input', newValue)"/>
-        <span v-if="item.portionType" class="text-sm mr-2">{{ item.portionType }}</span>
+  <div class="bg-black text-white p-4">
+    <div class="flex justify-between mb-4">
+      <span class="flex-1 truncate text-base underline block">{{ item.name }}</span>
+      <div class="flex-1 flex justify-end">
+        <number-input class="w-24 text-right mr-2" :currency="item.portionTypeAbbr" :value="value" @input="(newValue) => $emit('input', newValue)"/>
         <delete-icon class="text-md" @click.native="$emit('delete')"/>
       </div>
     </div>
-    <macro-bar class="p-4" :calories="item.calories" :protein="item.protein" :carbs="item.carbs" :fat="item.fat"/>
+    <macro-bar :calories="item.calories" :protein="item.protein" :carbs="item.carbs" :fat="item.fat"/>
   </div>
 </template>
 

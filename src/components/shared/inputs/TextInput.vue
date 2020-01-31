@@ -1,5 +1,5 @@
 <template>
-  <input class="shadow appearance-none rounded py-2 px-3 bg-grey-darkest text-grey-lighter leading-tight focus:outline-none focus:shadow-outline" type="text" v-model="internal">
+  <input class="shadow appearance-none rounded py-1 px-2 bg-grey-darkest text-grey-lighter leading-tight focus:outline-none focus:shadow-outline" type="text" v-model="internal">
 </template>
 
 <script>

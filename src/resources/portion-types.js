@@ -1,10 +1,10 @@
 export default [
-    { text: 'Items', value: 'items' },
-    { text: 'Pounds', value: 'pounds' },
-    { text: 'Oz', value: 'oz' },
-    { text: 'Kg', value: 'kg' },
-    { text: 'Grams', value: 'grams' },
-    { text: 'Cups', value: 'cups' },
-    { text: 'Litres', value: 'litres' },
-    { text: 'Millilitres', value: 'millilitres' }
+    { text: 'Items', abbr: '', value: 'items' },
+    { text: 'Pounds', abbr: 'lbs', value: 'pounds' },
+    { text: 'Oz', abbr: 'oz', value: 'oz' },
+    { text: 'Kg', abbr: 'kg', value: 'kg' },
+    { text: 'Grams', abbr: 'g', value: 'grams' },
+    { text: 'Cups', abbr: 'cups', value: 'cups' },
+    { text: 'Litres', abbr: 'L', value: 'litres' },
+    { text: 'Millilitres', abbr: 'ml', value: 'millilitres' }
 ]
