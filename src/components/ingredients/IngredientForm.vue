@@ -1,30 +1,67 @@
 <template>
   <div class="flex-1">
     <card class="bg-theme-black-2 mb-4" title="Basic Info">
-      <form-field input-type="text" v-model="name" label="Name *" placeholder="Name" name="name" :validation-error="getFieldError('name')" v-validate="'required'" data-vv-delay="500"/>
+      <form-field
+        input-type="text"
+        v-model="name"
+        label="Name *"
+        placeholder="Name"
+        name="name"
+        :validation-error="getFieldError('name')"
+        v-validate="'required'"
+        data-vv-delay="500"
+      />
       <div class="flex mt-4">
-        <div class="flex-1">
-          <form-field input-type="number" v-model="portionAmount" label="Portion Amount *" name="portionAmount" :validation-error="getFieldError('portionAmount')" v-validate="'required'" data-vv-delay="500"/>
-        </div>
-        <div class="flex-1 ml-4">
-          <form-field input-type="portionType" v-model="portionType" label="Portion Type *" name="portionType" :validation-error="getFieldError('portionType')" v-validate="'required'" data-vv-delay="500"/>
-        </div>
+        <form-field
+          class="flex-1 mr-2"
+          input-type="number"
+          v-model="portionAmount"
+          label="Portion Amount *"
+          name="portionAmount"
+        />
+        <form-field
+          class="flex-1 ml-2"
+          input-type="portionType"
+          v-model="portionType"
+          label="Portion Type *"
+          name="portionType"
+        />
       </div>
       <div class="flex mt-4">
-        <div class="flex-1">
-          <form-field input-type="number" v-model="calories" label="Calories (kCal) *" name="calories" :validation-error="getFieldError('calories')" v-validate="'required'" data-vv-delay="500"/>
-        </div>
-        <div class="flex-1 ml-4">
-          <form-field input-type="number" v-model="protein" label="Protein (g) *" name="protein" :validation-error="getFieldError('protein')" v-validate="'required'" data-vv-delay="500"/>
-        </div>
+        <form-field
+          class="flex-1 mr-2"
+          input-type="number"
+          v-model="calories"
+          label="Calories (kCal) *"
+          name="calories"
+          currency="kCal"
+        />
+        <form-field
+          class="flex-1 ml\-2"
+          input-type="number"
+          v-model="protein"
+          label="Protein (g) *"
+          name="protein"
+          currency="g"
+        />
       </div>
       <div class="flex mt-4">
-        <div class="flex-1">
-          <form-field input-type="number" v-model="carbs" label="Carbs *" name="carbs" :validation-error="getFieldError('carbs')" v-validate="'required'" data-vv-delay="500"/>
-        </div>
-        <div class="flex-1 ml-4">
-          <form-field input-type="number" v-model="fat" label="Fat *" name="fat" :validation-error="getFieldError('fat')" v-validate="'required'" data-vv-delay="500"/>
-        </div>
+        <form-field
+          class="flex-1 mr-2"
+          input-type="number"
+          v-model="carbs"
+          label="Carbs *"
+          name="carbs"
+          currency="g"
+        />
+        <form-field
+          class="flex-1 ml-2"
+          input-type="number"
+          v-model="fat"
+          label="Fat *"
+          name="fat"
+          currency="g"
+        />
       </div>
     </card>
     <v-button class="w-full" @click.native="() => $emit('save')" :disabled="!isFormValid">{{ saveText }}</v-button>

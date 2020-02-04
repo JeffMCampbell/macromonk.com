@@ -1,7 +1,7 @@
 <template>
   <macro-item :item="item" deletable @delete="$emit('delete')">
     <div slot="footer" class="flex justify-center">
-      <number-input class="w-32 text-right" :currency="item.portionTypeAbbr" :value="value" @input="(newValue) => $emit('input', newValue)"/>
+      <number-input class="text-center" :currency="item.portionTypeAbbr" :value="value" @input="(newValue) => $emit('input', newValue)"/>
     </div>
   </macro-item>
 </template>

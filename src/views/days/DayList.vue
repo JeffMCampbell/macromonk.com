@@ -1,36 +1,27 @@
 <template>
-  <div>
-    <view-header :bread-crumbs="breadCrumbs"/>
-    <table-header v-model="search" search-placeholder="Search Days..." @newItem="createDay"/>
-    <macro-grid :items="filteredDays" @selected="viewDay" v-if="filteredDays.length"/>
-    <div class="text-white text-xl text-center mt-16" v-else>You have no Days!</div>
-  </div>
+  <macro-item-list
+    :bread-crumbs="breadCrumbs"
+    :items="processedDays"
+    search-placeholder="Search Days..."
+    empty-text="You have no Days!"
+    @newItem="createDay"
+    @selectedItem="viewDay"
+  />
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
-import { includes } from 'lodash'
-import ViewHeader from '@/components/shared/ViewHeader'
-import TableHeader from '@/components/shared/TableHeader'
-import MacroGrid from '@/components/shared/macro_items/MacroGrid'
+import MacroItemList from '@/components/shared/macro_items/MacroItemList'
 
 export default {
     name: 'days',
-    components: { ViewHeader, TableHeader, MacroGrid },
+    components: { MacroItemList },
     data () {
         return {
-            breadCrumbs: [{ title: 'Days', route: 'days' }],
-            search: ''
+            breadCrumbs: [{ title: 'Days', route: 'days' }]
         }
     },
-    computed: {
-        ...mapGetters({
-            days: 'processedDays'
-        }),
-        filteredDays () {
-            return this.search ? this.days.filter((day) => includes(day.name, this.search)) : this.days
-        }
-    },
+    computed: mapGetters(['processedDays']),
     methods: {
         createDay () {
             this.$router.push({ name: 'create-day' })

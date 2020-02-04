@@ -1,36 +1,27 @@
 <template>
-  <div>
-    <view-header :bread-crumbs="breadCrumbs"/>
-    <table-header v-model="search" search-placeholder="Search Recipes..." @newItem="createRecipe"/>
-    <macro-grid :items="filteredRecipes" @selected="viewRecipe" v-if="filteredRecipes.length"/>
-    <div class="text-white text-xl text-center mt-16" v-else>You have no Recipes!</div>
-  </div>
+  <macro-item-list
+    :bread-crumbs="breadCrumbs"
+    :items="processedRecipes"
+    search-placeholder="Search Recipes..."
+    empty-text="You have no Recipes!"
+    @newItem="createRecipe"
+    @selectedItem="viewRecipe"
+  />
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
-import { includes } from 'lodash'
-import ViewHeader from '@/components/shared/ViewHeader'
-import TableHeader from '@/components/shared/TableHeader'
-import MacroGrid from '@/components/shared/macro_items/MacroGrid'
+import MacroItemList from '@/components/shared/macro_items/MacroItemList'
 
 export default {
     name: 'recipes',
-    components: { ViewHeader, TableHeader, MacroGrid },
+    components: { MacroItemList },
     data () {
         return {
-            breadCrumbs: [{ title: 'Recipes', route: 'recipes' }],
-            search: ''
+            breadCrumbs: [{ title: 'Recipes', route: 'recipes' }]
         }
     },
-    computed: {
-        ...mapGetters({
-            recipes: 'processedRecipes'
-        }),
-        filteredRecipes () {
-            return this.search ? this.recipes.filter((recipe) => includes(recipe.name, this.search)) : this.recipes
-        }
-    },
+    computed: mapGetters(['processedRecipes']),
     methods: {
         createRecipe () {
             this.$router.push({ name: 'create-recipe' })

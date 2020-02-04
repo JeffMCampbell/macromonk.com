@@ -1,7 +1,15 @@
 <template>
   <div>
     <label class="block text-white text-xs mb-4" for="name">{{ label }}</label>
-    <component :is="inputComponent" class="w-full" :value="value" @input="(newValue) => $emit('input', newValue)" :placeholder="placeholder" :name="name"/>
+    <component
+      :is="inputComponent"
+      class="w-full"
+      :value="value"
+      @input="(newValue) => $emit('input', newValue)"
+      :placeholder="placeholder"
+      :name="name"
+      :currency="currency"
+    />
     <validation-error class="mt-4" v-if="validationError" :error="validationError"/>
   </div>
 </template>
@@ -45,6 +53,10 @@ export default {
             required: true
         },
         validationError: {
+            type: String,
+            default: null
+        },
+        currency: {
             type: String,
             default: null
         }
