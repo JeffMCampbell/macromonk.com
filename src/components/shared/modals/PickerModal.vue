@@ -1,6 +1,6 @@
 <template>
   <modal @close="() => $emit('close')">
-    <div class="picker-modal overflow-auto text-white">
+    <div class="picker-modal overflow-auto text-white" :class="{ 'desktop': isDesktop }">
       <div class="text-center text-base font-bold mb-6">{{ title }}</div>
       <text-input v-model="search" :placeholder="searchText" class="w-full mb-4"/>
       <macro-item class="mb-4" v-for="item in filteredMacroModels" :key="item.id" :item="item">
@@ -12,6 +12,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import { includes } from 'lodash'
 import Modal from '@/components/shared/modals/Modal'
 import VButton from '@/components/shared/Button'
@@ -41,6 +42,7 @@ export default {
         }
     },
     computed: {
+        ...mapGetters(['isDesktop']),
         filteredMacroModels () {
             if (!this.search) {
                 return this.items
@@ -55,6 +57,9 @@ export default {
 <style lang="scss" scoped>
   .picker-modal {
         max-height: 450px;
-        width: 300px;
+  }
+
+  .desktop {
+        width: 450px;
   }
 </style>

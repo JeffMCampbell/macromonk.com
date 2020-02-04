@@ -1,11 +1,11 @@
 <template>
   <transition name="modal">
     <div class="modal-mask">
-      <div class="modal-container m-4" v-on-clickaway="() => $emit('close')">
+      <div class="modal-container m-4" :class="{ 'w-full': isMobile }" v-on-clickaway="() => $emit('close')">
         <div class="bg-theme-black-3 pt-16 pb-12 pl-16 pr-12" v-if="loading">
           <loader class=""/>
         </div>
-        <div class="modal-body bg-theme-black-3 p-8" v-else>
+        <div class="modal-body bg-theme-black-3 p-4" v-else>
           <slot />
         </div>
       </div>
@@ -14,6 +14,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import { mixin as clickaway } from 'vue-clickaway2'
 import Loader from '@/components/shared/Loader'
 
@@ -25,7 +26,8 @@ export default {
             type: Boolean,
             default: false
         }
-    }
+    },
+    computed: mapGetters(['isMobile'])
 }
 </script>
 
@@ -45,7 +47,7 @@ export default {
 }
 
 .modal-container {
-  max-width: 500px;
+  /* max-width: 500px; */
   max-height: 450px;
   border-radius: 2px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, .33);
