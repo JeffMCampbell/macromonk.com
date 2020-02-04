@@ -1,6 +1,6 @@
 <template>
   <div>
-    <view-header title="Ingredient List" :bread-crumbs="breadCrumbs"/>
+    <view-header :title="title" :bread-crumbs="breadCrumbs"/>
     <table-header v-model="filter" :search-placeholder="searchPlaceholder" @newItem="() => $emit('newItem')"/>
     <macro-grid :items="filteredItems" @selected="(item) => $emit('selectedItem', item)" v-if="filteredItems.length"/>
     <div class="text-white text-xl text-center mt-16" v-else>{{ emptyText }}</div>
@@ -20,6 +20,10 @@ export default {
         breadCrumbs: {
             type: Array,
             required: true
+        },
+        title: {
+            type: String,
+            default: null
         },
         searchPlaceholder: {
             type: String,

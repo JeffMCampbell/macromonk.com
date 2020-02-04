@@ -1,6 +1,7 @@
 <template>
   <macro-item-list
     :bread-crumbs="breadCrumbs"
+    title="Recipe List"
     :items="processedRecipes"
     search-placeholder="Search Recipes..."
     empty-text="You have no Recipes!"

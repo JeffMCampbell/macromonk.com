@@ -1,6 +1,7 @@
 <template>
   <macro-item-list
     :bread-crumbs="breadCrumbs"
+    title="Meal List"
     :items="processedMeals"
     search-placeholder="Search Meals..."
     empty-text="You have no Meals!"

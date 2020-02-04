@@ -55,6 +55,6 @@ export default {
 <style lang="scss" scoped>
   .picker-modal {
         max-height: 450px;
-        width: 400px;
+        width: 300px;
   }
 </style>

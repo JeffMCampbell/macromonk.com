@@ -1,6 +1,7 @@
 <template>
   <macro-item-list
     :bread-crumbs="breadCrumbs"
+    title="Day List"
     :items="processedDays"
     search-placeholder="Search Days..."
     empty-text="You have no Days!"

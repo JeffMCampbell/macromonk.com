@@ -1,15 +1,13 @@
 <template>
   <div class="mb-4">
     <div class="flex justify-between items-center">
-      <text-input class="search-input mr-2" :value="value.search" @input="(newValue) => update('search', newValue)" :placeholder="searchPlaceholder"/>
-      <div class="flex">
-        <v-button class="mr-2" background="bg-green" background-hover="hover:bg-green-dark" @click.native="$emit('newItem')">New</v-button>
-        <v-button class="ml-r" background="bg-white" background-hover="hover:bg-gray" @click.native="showFilter = !showFilter">
-          <filter-icon class="text-black"/>
-        </v-button>
-      </div>
+      <v-button class="ml-r" background="bg-white" background-hover="hover:bg-gray" @click.native="showFilter = !showFilter">
+        <filter-icon class="text-black"/>
+      </v-button>
+      <text-input class="flex-1 search-input mx-2" :value="value.search" @input="(newValue) => update('search', newValue)" :placeholder="searchPlaceholder"/>
+      <v-button class="mr-2" background="bg-green" background-hover="hover:bg-green-dark" @click.native="$emit('newItem')">New</v-button>
     </div>
-    <div class="flex justify-end items-center mt-4" v-if="showFilter">
+    <div class="flex justify-center items-center mt-4" v-if="showFilter">
       <span class="text-white mr-2">Sort:</span>
       <select-input class="w-24 mr-2" :value="value.sortField" @input="(newValue) => update('sortField', newValue)" :options="sortFields"/>
       <select-input class="w-24" :value="value.sortDirection" @input="(newValue) => update('sortDirection', newValue)" :options="sortDirections"/>
