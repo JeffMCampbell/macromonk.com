@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="flex justify-between mb-8">
+    <div class="top-bar flex justify-between mb-8">
       <div class="flex self-start">
         <div class="flex items-center text-white text-sm cursor-pointer mr-2" v-for="(breadCrumb, index) in breadCrumbs" :key="index" @click="$router.push({ name: breadCrumb.route, params: breadCrumb.params })">
           <i class="material-icons text-sm mr-2">play_arrow</i>
@@ -52,3 +52,9 @@ export default {
     }
 }
 </script>
+
+<style scoped>
+  .top-bar {
+    height: 30px;
+  }
+</style>
