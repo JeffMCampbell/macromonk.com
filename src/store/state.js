@@ -6,5 +6,9 @@ export default {
     days: [],
     initialized: false,
     breakpoint: 'xs',
-    dashboardLoading: false
+    dashboardLoading: false,
+
+    updatingMacros: false,
+
+    loadingItems: []
 }

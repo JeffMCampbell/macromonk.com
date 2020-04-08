@@ -50,7 +50,9 @@ export async function updateIngredient ({ dispatch, state }, ingredient) {
     await dispatch('refreshIngredients')
 }
 
-export async function deleteIngredient ({ dispatch, state, getters }, id) {
+export async function deleteIngredient ({ commit, dispatch, state, getters }, id) {
+    commit('setUpdatingMacros', true)
+
     await IngredientService.deleteIngredient(
         state.user.id,
         id,
@@ -61,6 +63,8 @@ export async function deleteIngredient ({ dispatch, state, getters }, id) {
     await dispatch('refreshIngredients')
     await dispatch('refreshRecipes')
     await dispatch('refreshMeals')
+
+    commit('setUpdatingMacros', false)
 }
 
 export async function refreshRecipes ({ commit, state }) {

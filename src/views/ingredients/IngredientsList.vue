@@ -7,11 +7,13 @@
     empty-text="You have no Ingredients!"
     @newItem="createIngredient"
     @selectedItem="viewIngredient"
+    @edit="editIngredient"
+    @delete="(ingredient) => deleteIngredient(ingredient.id)"
   />
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 import MacroItemList from '@/components/shared/macro_items/MacroItemList'
 
 export default {
@@ -24,11 +26,15 @@ export default {
     },
     computed: mapGetters(['processedIngredients']),
     methods: {
+        ...mapActions(['deleteIngredient']),
         createIngredient () {
             this.$router.push({ name: 'create-ingredient' })
         },
         viewIngredient (ingredient) {
             this.$router.push({ name: 'view-ingredient', params: { ingredientId: ingredient.id } })
+        },
+        editIngredient (ingredient) {
+            this.$router.push({ name: 'edit-ingredient', params: { ingredientId: ingredient.id } })
         }
     }
 }

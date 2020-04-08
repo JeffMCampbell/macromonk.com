@@ -13,3 +13,5 @@ export function setInitialized (state, initialized) { state.initialized = initia
 export function setBreakpoint (state, breakpoint) { state.breakpoint = breakpoint }
 
 export function setDashboardLoading (state, loading) { state.dashboardLoading = loading }
+
+export function setUpdatingMacros (state, updatingMacros) { state.updatingMacros = updatingMacros }

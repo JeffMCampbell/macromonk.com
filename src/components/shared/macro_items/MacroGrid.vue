@@ -1,6 +1,16 @@
 <template>
   <div :class="{ grid: isDesktop }">
-    <macro-item :class="{ 'mb-4': !isDesktop }" v-for="(item, index) in items" :key="index" :item="item" @view="() => $emit('selected', item)"/>
+    <macro-item
+      :class="{ 'mb-4': !isDesktop }"
+      v-for="(item, index) in items"
+      :key="index"
+      :item="item"
+      @view="() => $emit('selected', item)"
+      editable
+      deletable
+      @edit="() => $emit('edit', item)"
+      @delete="() => $emit('delete', item)"
+    />
   </div>
 </template>
 

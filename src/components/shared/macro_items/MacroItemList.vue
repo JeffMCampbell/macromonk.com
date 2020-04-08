@@ -2,7 +2,13 @@
   <div>
     <view-header :title="title" :bread-crumbs="breadCrumbs"/>
     <table-header v-model="filter" :search-placeholder="searchPlaceholder" @newItem="() => $emit('newItem')"/>
-    <macro-grid :items="filteredItems" @selected="(item) => $emit('selectedItem', item)" v-if="filteredItems.length"/>
+    <macro-grid
+      v-if="filteredItems.length"
+      :items="filteredItems"
+      @selected="(item) => $emit('selectedItem', item)"
+      @edit="(item) => $emit('edit', item)"
+      @delete="(item) => $emit('delete', item)"
+    />
     <div class="text-white text-xl text-center mt-16" v-else>{{ emptyText }}</div>
   </div>
 </template>

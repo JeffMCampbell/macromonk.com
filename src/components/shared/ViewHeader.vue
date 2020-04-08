@@ -7,10 +7,7 @@
           {{ breadCrumb.title }}
         </div>
       </div>
-      <div class="self-start relative" v-if="options">
-        <traffic-light-icon class="text-white" @click.native="showMenu = !showMenu"/>
-        <options-menu v-if="showMenu" :options="options" @clickAway="() => showMenu = false" @optionClicked="() => showMenu = false"/>
-      </div>
+      <options-menu v-if="options" :options="options"/>
     </div>
     <div class="text-white text-center mb-8">
       <div class="font-bold truncate text-3xl mb-2" v-if="title">{{ title }}</div>
@@ -22,11 +19,10 @@
 
 <script>
 import OptionsMenu from '@/components/shared/OptionsMenu'
-import TrafficLightIcon from '@/components/shared/icons/TrafficLightIcon'
 
 export default {
     name: 'view-header',
-    components: { OptionsMenu, TrafficLightIcon },
+    components: { OptionsMenu },
     props: {
         breadCrumbs: {
             type: Array,
@@ -43,11 +39,6 @@ export default {
         subTitle: {
             type: String,
             default: null
-        }
-    },
-    data () {
-        return {
-            showMenu: false
         }
     }
 }

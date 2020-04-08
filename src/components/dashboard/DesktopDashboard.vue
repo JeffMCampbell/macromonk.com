@@ -3,7 +3,7 @@
     <dashboard-navigation />
     <side-bar/>
     <main class="relative h-full p-6 bg-theme-black-3">
-      <loader v-if="loading" class="absolute m-auto pin"/>
+      <loader v-if="updatingMacros" class="absolute m-auto pin"/>
       <router-view v-else/>
     </main>
   </div>
@@ -19,9 +19,7 @@ export default {
     name: 'desktop-dashboard',
     components: { DashboardNavigation, SideBar, Loader },
     computed: {
-        ...mapState({
-            loading: 'dashboardLoading'
-        })
+        ...mapState(['updatingMacros'])
     }
 }
 </script>
