@@ -20,20 +20,13 @@
           @selected="(meal) => $router.push({ name: 'view-meal', params: { mealId: meal.id } })"
           empty-text="Ingredient is not in any meals."
         />
-        <macro-grid-card
-          :title="`Contained in Days (${days.length})`"
-          tool-tip="Days that contain this ingredient and the macros this ingredient makes up within that day."
-          :items="days"
-          @selected="(day) => $router.push({ name: 'view-day', params: { dayId: day.id } })"
-          empty-text="Ingredient is not in any days."
-        />
       </div>
       <macro-card class="self-start" :calories="ingredient.calories" :protein="ingredient.protein" :carbs="ingredient.carbs" :fat="ingredient.fat"/>
     </div>
     <confirm-modal
       v-if="showDeleteModal"
       header-text="Are you sure you want to delete this ingredient?"
-      sub-text="This is will modify any recipes, meals & days containing this ingredient."
+      sub-text="This is will modify any recipes, & meals containing this ingredient."
       @confirmed="deleteConfirmed"
       @close="() => showDeleteModal = false"
     />
@@ -44,7 +37,6 @@
 import { mapGetters, mapMutations, mapActions } from 'vuex'
 import IngredientRecipe from '@/models/IngredientRecipe'
 import IngredientMeal from '@/models/IngredientMeal'
-import IngredientDay from '@/models/IngredientDay'
 import ViewHeader from '@/components/shared/ViewHeader'
 import MacroCard from '@/components/shared/macro_items/MacroCard'
 import MacroGridCard from '@/components/shared/macro_items/MacroGridCard'
@@ -79,7 +71,7 @@ export default {
         }
     },
     computed: {
-        ...mapGetters(['getIngredient', 'recipesForIngredient', 'mealsForIngredientIncludingRecipes', 'daysForIngredient']),
+        ...mapGetters(['getIngredient', 'recipesForIngredient', 'mealsForIngredientIncludingRecipes']),
         ingredient () {
             return this.getIngredient(this.ingredientId)
         },
@@ -88,9 +80,6 @@ export default {
         },
         meals () {
             return this.mealsForIngredientIncludingRecipes(this.ingredientId).map((meal) => new IngredientMeal(this.ingredient, meal))
-        },
-        days () {
-            return this.daysForIngredient(this.ingredientId).map((day) => new IngredientDay(this.ingredient, day))
         },
         breadCrumbs () {
             return [{ title: 'Ingredients', route: 'ingredients' }, { title: this.ingredient.name, route: 'view-ingredient', params: { id: this.ingredientId } }]

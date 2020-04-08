@@ -16,10 +16,6 @@ import MealList from './views/meals/MealList.vue'
 import CreateMeal from './views/meals/CreateMeal.vue'
 import EditMeal from './views/meals/EditMeal.vue'
 import ViewMeal from './views/meals/ViewMeal.vue'
-import DayList from './views/days/DayList.vue'
-import CreateDay from './views/days/CreateDay.vue'
-import EditDay from './views/days/EditDay.vue'
-import ViewDay from './views/days/ViewDay.vue'
 import Logout from './views/Logout.vue'
 import store from '@/store'
 import authService from '@/services/auth'
@@ -123,32 +119,6 @@ const router = new Router({
                     path: '/meals/:mealId',
                     name: 'view-meal',
                     component: ViewMeal,
-                    props: true,
-                    meta: { requiresAuth: true }
-                },
-                {
-                    path: '/days',
-                    name: 'days',
-                    component: DayList,
-                    meta: { requiresAuth: true }
-                },
-                {
-                    path: '/days/create',
-                    name: 'create-day',
-                    component: CreateDay,
-                    meta: { requiresAuth: true }
-                },
-                {
-                    path: '/days/:dayId',
-                    name: 'view-day',
-                    component: ViewDay,
-                    props: true,
-                    meta: { requiresAuth: true }
-                },
-                {
-                    path: '/days/:dayId/edit',
-                    name: 'edit-day',
-                    component: EditDay,
                     props: true,
                     meta: { requiresAuth: true }
                 },

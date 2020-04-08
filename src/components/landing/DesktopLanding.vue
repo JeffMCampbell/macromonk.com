@@ -59,12 +59,6 @@ export default {
                 },
                 {
                     path: '/img/landing/view-meal2.png'
-                },
-                {
-                    path: '/img/landing/create-day2.png'
-                },
-                {
-                    path: '/img/landing/view-day2.png'
                 }
             ]
         }

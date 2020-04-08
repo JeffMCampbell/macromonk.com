@@ -4,7 +4,7 @@
     <div class="flex flex-col md:flex-row">
       <div class="flex-1">
         <div v-for="item in scheduleWithDays" :key="item.key">
-          <day-entry :name="item.key" :day="item.day" :editing="editing" @select="pickDay(item.key)" @clear="deleteDay(item.key)"/>
+          <day-entry :value="item" :editing="editing" @input="updateDay"/>
         </div>
         <v-button v-if="editing" class="w-full" @click.native="save">Save</v-button>
       </div>
@@ -19,12 +19,13 @@
 
 <script>
 import { mapMutations, mapState, mapGetters, mapActions } from 'vuex'
-import { reduce, mapValues, cloneDeep } from 'lodash'
+import { cloneDeep } from 'lodash'
 import ViewHeader from '@/components/shared/ViewHeader'
 import MacroCard from '@/components/shared/macro_items/MacroCard'
 import VButton from '@/components/shared/Button'
 import PickerModal from '@/components/shared/modals/PickerModal'
 import DayEntry from '@/components/schedule/DayEntry'
+import { sumMacroItems, averageMacroItems } from '@/services/macro-calculator'
 
 export default {
     name: 'scheduler',
@@ -46,31 +47,26 @@ export default {
     },
     computed: {
         ...mapState(['user']),
-        ...mapGetters(['processedDays', 'getDay']),
+        ...mapGetters(['processedMeals', 'getMeal']),
         dayOrder: () => ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'],
         scheduleWithDays () {
             return this.dayOrder.map((dayKey) => {
+                const meals = this.schedule[dayKey].map(this.getMeal)
+
+                const macros = sumMacroItems(meals)
+
                 return {
                     key: dayKey,
-                    day: this.getDay(this.schedule[dayKey])
+                    ...macros,
+                    meals: this.schedule[dayKey].map((mealId) => this.getMeal(mealId))
                 }
             })
         },
-        scheduleDays () {
-            return this.scheduleWithDays.filter((item) => item.day)
-        },
         averageMacros () {
-            return mapValues(this.totalMacros, (value) => this.scheduleDays.length ? value / this.scheduleDays.length : 0)
+            return averageMacroItems(this.scheduleWithDays.filter((day) => day.meals.length))
         },
         totalMacros () {
-            return reduce(this.scheduleDays, (carry, item) => {
-                return {
-                    calories: carry.calories + item.day.calories,
-                    protein: carry.protein + item.day.protein,
-                    carbs: carry.carbs + item.day.carbs,
-                    fat: carry.fat + item.day.fat
-                }
-            }, { calories: 0, protein: 0, carbs: 0, fat: 0 })
+            return sumMacroItems(this.scheduleWithDays)
         }
     },
     created () {
@@ -79,15 +75,8 @@ export default {
     methods: {
         ...mapMutations(['setDashboardLoading']),
         ...mapActions(['updateSchedule']),
-        pickDay (dayKey) {
-            this.selectedDayKey = dayKey
-        },
-        async selectDay (day) {
-            this.schedule[this.selectedDayKey] = day.id
-            this.selectedDayKey = null
-        },
-        async deleteDay (dayKey) {
-            this.schedule[dayKey] = null
+        updateDay (day) {
+            this.schedule[day.key] = day.meals.map((meal) => meal.id)
         },
         async save () {
             this.setDashboardLoading(true)

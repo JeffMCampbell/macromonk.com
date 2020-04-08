@@ -1,27 +1,30 @@
 <template>
-  <card class="bg-theme-black-2 mb-4" :title="name">
-    <macro-item :item="day" v-if="day" :deletable="editing" @delete="$emit('clear')" @view="viewDay"/>
-    <div class="text-center" v-else>
+  <card class="bg-theme-black-2 mb-4" :title="value.key">
+    <div v-if="!value.meals.length">
       <div class="text-xl text-red mb-4">Cheat Day</div>
-      <v-button @click.native="$emit('select')" v-if="editing">Select Day</v-button>
     </div>
+    <macro-item v-else :item="value" />
+    <mini-macro-item class="mb-4" v-for="(meal, index) in value.meals" :key="index" :item="meal"/>
+    <div class="text-center">
+      <v-button @click.native="showMealModal = true" v-if="editing">Add Meal</v-button>
+    </div>
+    <picker-modal v-if="showMealModal" title="Available Meals" search-text="Search Meals..." :items="processedMeals" @select="selectMeal" @close="showMealModal = false"/>
   </card>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import Card from '@/components/shared/Card'
 import VButton from '@/components/shared/Button'
 import MacroItem from '@/components/shared/macro_items/MacroItem'
+import MiniMacroItem from '@/components/shared/macro_items/MiniMacroItem'
+import PickerModal from '@/components/shared/modals/PickerModal'
 
 export default {
     name: 'day-entry',
-    components: { Card, VButton, MacroItem },
+    components: { Card, VButton, MacroItem, MiniMacroItem, PickerModal },
     props: {
-        name: {
-            type: String,
-            required: true
-        },
-        day: {
+        value: {
             type: Object,
             default: null
         },
@@ -30,9 +33,23 @@ export default {
             required: true
         }
     },
+    data () {
+        return {
+            showMealModal: false
+        }
+    },
+    computed: mapGetters(['processedMeals']),
     methods: {
-        viewDay () {
-            this.$router.push({ name: 'view-day', params: { dayId: this.day.id } })
+        selectMeal (meal) {
+            this.$emit('input', {
+                ...this.value,
+                meals: [...this.value.meals, meal]
+            })
+
+            this.showMealModal = false
+        },
+        clear () {
+
         }
     }
 }

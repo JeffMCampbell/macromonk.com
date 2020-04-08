@@ -11,12 +11,11 @@ import ScheduleIcon from '@/components/svg/ScheduleIcon'
 import IngredientIcon from '@/components/svg/IngredientIcon'
 import RecipeIcon from '@/components/svg/RecipeIcon'
 import MealIcon from '@/components/svg/MealIcon'
-import DayIcon from '@/components/svg/DayIcon'
 import links from '@/resources/links'
 
 export default {
     name: 'side-bar',
-    components: { ScheduleIcon, IngredientIcon, MealIcon, RecipeIcon, DayIcon },
+    components: { ScheduleIcon, IngredientIcon, MealIcon, RecipeIcon },
     data () {
         return {
             options: links

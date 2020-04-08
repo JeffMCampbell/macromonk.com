@@ -1,5 +1,23 @@
 import store from '@/store'
-import { reduce, find } from 'lodash'
+import { reduce, find, mapValues } from 'lodash'
+
+const BLANK_MACROS = { calories: 0, protein: 0, carbs: 0, fat: 0 }
+
+export const sumMacroItems = (items) => {
+    return items.reduce((item, carry) => {
+        return {
+            calories: carry.calories + item.calories,
+            protein: carry.protein + item.protein,
+            carbs: carry.carbs + item.carbs,
+            fat: carry.fat + item.fat
+        }
+    }, BLANK_MACROS)
+}
+
+
+export const averageMacroItems = (items) => {
+    return mapValues(sumMacroItems(items), (value) => items.length ? value / items.length : 0)
+}
 
 export default {
     forRecipe (recipe) {
@@ -53,24 +71,6 @@ export default {
             carry.fat += recipe.fat * portions
             return carry
         }, ingredientMacros)
-    },
-    forDay (day) {
-        const meals = store.getters['processedMeals']
-
-        return reduce(day.meals, (carry, mealId) => {
-            const meal = find(meals, { id: mealId })
-
-            if (!meal) {
-                return carry
-            }
-
-            return {
-                calories: carry.calories + meal.calories,
-                protein: carry.protein + meal.protein,
-                carbs: carry.carbs + meal.carbs,
-                fat: carry.fat + meal.fat
-            }
-        }, { calories: 0, protein: 0, carbs: 0, fat: 0 })
     },
     ingredientMacrosForRecipe (recipe, ingredients) {
         return ingredients.map((ingredient) => {

@@ -1,4 +1,4 @@
-import { map, without, pick } from 'lodash'
+import { pick } from 'lodash'
 import firestore from '@/firebase/firestore'
 
 const MEAL_KEYS = ['name', 'ingredients', 'recipes']
@@ -18,19 +18,13 @@ const updateMeal = async function (userId, mealId, data) {
     await batch.commit()
 }
 
-const deleteMeal = async function (userId, mealId, days) {
+const deleteMeal = async function (userId, mealId) {
     const batch = firestore.firestore.batch()
 
     const mealReference = firestore.firestore.collection('users').doc(userId).collection('meals').doc(mealId)
     batch.delete(mealReference)
 
-    map(days, (day) => {
-        const dayReference = firestore.firestore.collection('users').doc(userId).collection('days').doc(day.id)
-
-        batch.update(dayReference, {
-            meals: without(day.meals, mealId)
-        })
-    })
+    // will need to update schedule
 
     await batch.commit()
 }

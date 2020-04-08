@@ -23,7 +23,6 @@
     <confirm-modal
       v-if="showDeleteModal"
       header-text="Are you sure you want to delete this meal?"
-      sub-text="This is will modify any days containing this meal."
       @confirmed="deleteConfirmed"
       @close="() => showDeleteModal = false"
     />

@@ -6,8 +6,6 @@ export function setRecipes (state, recipes) { state.recipes = recipes }
 
 export function setMeals (state, meals) { state.meals = meals }
 
-export function setDays (state, days) { state.days = days }
-
 export function setInitialized (state, initialized) { state.initialized = initialized }
 
 export function setBreakpoint (state, breakpoint) { state.breakpoint = breakpoint }

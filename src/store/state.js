@@ -3,7 +3,6 @@ export default {
     ingredients: [],
     recipes: [],
     meals: [],
-    days: [],
     initialized: false,
     breakpoint: 'xs',
     dashboardLoading: false,

@@ -7,7 +7,7 @@
 
       <ul class="list-disc text-white mb-8">
         <li class="mb-2">MacroMonk is a tool to help you manage and plan your calorie and macro nutritent intake.</li>
-        <li class="mb-2">It helps you plan your macros for recipes, meals & days based on raw ingredients you enter into the app.</li>
+        <li class="mb-2">It helps you plan your macros for recipes, & meals based on raw ingredients you enter into the app.</li>
         <li class="mb-2">We allow you to enter the nutrition data yourself for the ingriedents you use, instead of trusting the data on various other resources.</li>
         <li> You get to enter exactly what your label says</li>
       </ul>
