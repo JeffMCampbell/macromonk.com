@@ -3,8 +3,12 @@
     <div v-if="!value.meals.length">
       <div class="text-xl text-red mb-4">Cheat Day</div>
     </div>
-    <macro-item v-else :item="value" />
-    <mini-macro-item class="mb-4" v-for="(meal, index) in value.meals" :key="index" :item="meal"/>
+    <template v-else>
+      <label class="block text-white text-sm mb-4">Total</label>
+      <macro-item class="mb-4" :item="value" />
+    </template>
+    <label class="block text-white text-sm mb-4">Meals</label>
+    <mini-macro-item class="mb-4" v-for="(meal, index) in value.meals" :key="index" :item="meal" :deletable="editing" @delete="() => removeMeal(index)"/>
     <div class="text-center">
       <v-button @click.native="showMealModal = true" v-if="editing">Add Meal</v-button>
     </div>
@@ -48,8 +52,17 @@ export default {
 
             this.showMealModal = false
         },
-        clear () {
-
+        removeMeal (index) {
+            this.$emit('input', {
+                ...this.value,
+                meals: [...this.value.meals.slice(0, index), ...this.value.meals.slice(index + 1, this.value.meals.length)]
+            })
+        },
+        clearDay () {
+            this.$emit('input', {
+                ...this.value,
+                meals: []
+            })
         }
     }
 }
