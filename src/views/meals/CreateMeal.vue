@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations, mapActions } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 import Meal from '@/models/Meal'
 import ViewHeader from '@/components/shared/ViewHeader'
 import MealForm from '@/components/meals/MealForm'
@@ -30,13 +30,10 @@ export default {
     },
     computed: mapGetters(['isDesktop']),
     methods: {
-        ...mapMutations(['setDashboardLoading']),
         ...mapActions(['createMeal']),
         async create () {
-            this.setDashboardLoading(true)
             const meal = await this.createMeal(this.meal)
             this.$router.push({ name: 'view-meal', params: { mealId: meal.id } })
-            this.setDashboardLoading(false)
         }
     }
 }

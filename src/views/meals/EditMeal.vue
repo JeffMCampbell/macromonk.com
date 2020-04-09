@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations, mapActions } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 import { cloneDeep } from 'lodash'
 import MacroCalculator from '@/services/macro-calculator'
 import ViewHeader from '@/components/shared/ViewHeader'
@@ -46,13 +46,10 @@ export default {
         this.originalName = this.meal.name
     },
     methods: {
-        ...mapMutations(['setDashboardLoading']),
         ...mapActions(['updateMeal']),
         async save () {
-            this.setDashboardLoading(true)
             await this.updateMeal(this.meal)
             this.$router.push({ name: 'view-meal', params: { mealId: this.mealId } })
-            this.setDashboardLoading(false)
         }
     }
 }

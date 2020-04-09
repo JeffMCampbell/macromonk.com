@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations, mapActions } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 import MacroCalculator from '@/services/macro-calculator'
 import ViewHeader from '@/components/shared/ViewHeader'
 import RecipeForm from '@/components/recipes/RecipeForm'
@@ -37,15 +37,10 @@ export default {
         }
     },
     methods: {
-        ...mapMutations({
-            setDashboardLoading: 'setDashboardLoading'
-        }),
         ...mapActions(['createRecipe']),
         async create () {
-            this.setDashboardLoading(true)
             const recipe = await this.createRecipe(this.recipe)
             this.$router.push({ name: 'view-recipe', params: { recipeId: recipe.id } })
-            this.setDashboardLoading(false)
         }
     }
 }

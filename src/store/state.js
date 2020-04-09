@@ -5,9 +5,6 @@ export default {
     meals: [],
     initialized: false,
     breakpoint: 'xs',
-    dashboardLoading: false,
-
     updatingMacros: false,
-
     loadingItems: []
 }

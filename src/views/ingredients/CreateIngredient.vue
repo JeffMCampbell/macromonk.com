@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations, mapActions } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 import ViewHeader from '@/components/shared/ViewHeader'
 import IngredientForm from '@/components/ingredients/IngredientForm'
 import MacroCard from '@/components/shared/macro_items/MacroCard'
@@ -33,12 +33,9 @@ export default {
     },
     computed: mapGetters(['isDesktop']),
     methods: {
-        ...mapMutations(['setDashboardLoading']),
         ...mapActions(['createIngredient']),
         async create () {
-            this.setDashboardLoading(true)
             const ingredient = await this.createIngredient(this.ingredient)
-            this.setDashboardLoading(false)
             this.$router.push({ name: 'view-ingredient', params: { ingredientId: ingredient.id } })
         }
     }

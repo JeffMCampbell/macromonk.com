@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations, mapActions } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 import MealIngredient from '@/models/MealIngredient'
 import MealRecipe from '@/models/MealRecipe'
 import ViewHeader from '@/components/shared/ViewHeader'
@@ -83,12 +83,9 @@ export default {
         if (!this.meal) { this.$router.replace({ name: 'meals' }) }
     },
     methods: {
-        ...mapMutations(['setDashboardLoading']),
         ...mapActions(['deleteMeal']),
         async deleteConfirmed () {
-            this.setDashboardLoading(true)
             await this.deleteMeal(this.mealId)
-            this.setDashboardLoading(false)
             this.$router.push({ name: 'meals' })
         }
     }

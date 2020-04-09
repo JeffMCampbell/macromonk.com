@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations, mapActions } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 import { cloneDeep } from 'lodash'
 import ViewHeader from '@/components/shared/ViewHeader'
 import IngredientForm from '@/components/ingredients/IngredientForm'
@@ -48,13 +48,10 @@ export default {
         this.ingredient = cloneDeep(ingredient)
     },
     methods: {
-        ...mapMutations(['setDashboardLoading']),
         ...mapActions(['updateIngredient']),
         async save () {
-            this.setDashboardLoading(true)
             await this.updateIngredient(this.ingredient)
             this.$router.push({ name: 'view-ingredient', params: { ingredientId: this.ingredientId } })
-            this.setDashboardLoading(false)
         }
     }
 }

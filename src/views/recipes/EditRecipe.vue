@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations, mapActions } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 import { cloneDeep } from 'lodash'
 import MacroCalculator from '@/services/macro-calculator'
 import ViewHeader from '@/components/shared/ViewHeader'
@@ -52,13 +52,10 @@ export default {
         this.recipe = cloneDeep(recipe)
     },
     methods: {
-        ...mapMutations(['setDashboardLoading']),
         ...mapActions(['updateRecipe']),
         async save () {
-            this.setDashboardLoading(true)
             await this.updateRecipe(this.recipe)
             this.$router.push({ name: 'view-recipe', params: { recipeId: this.recipeId } })
-            this.setDashboardLoading(false)
         }
     }
 }

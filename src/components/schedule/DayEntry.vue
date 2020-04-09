@@ -5,7 +5,7 @@
     </div>
     <template v-else>
       <label class="block text-white text-sm mb-4">Total</label>
-      <macro-item class="mb-4" :item="value" />
+      <macro-item class="mb-4" :item="value"/>
     </template>
     <label class="block text-white text-sm mb-4">Meals</label>
     <mini-macro-item class="mb-4" v-for="(meal, index) in value.meals" :key="index" :item="meal" :deletable="editing" @delete="() => removeMeal(index)"/>

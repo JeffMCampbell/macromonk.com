@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations, mapActions } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 import IngredientRecipe from '@/models/IngredientRecipe'
 import IngredientMeal from '@/models/IngredientMeal'
 import ViewHeader from '@/components/shared/ViewHeader'
@@ -89,12 +89,9 @@ export default {
         if (!this.ingredient) this.$router.replace({ name: 'ingredients' })
     },
     methods: {
-        ...mapMutations(['setDashboardLoading']),
         ...mapActions(['deleteIngredient']),
         async deleteConfirmed () {
-            this.setDashboardLoading(true)
             await this.deleteIngredient(this.ingredientId)
-            this.setDashboardLoading(false)
             this.$router.push({ name: 'ingredients' })
         }
     }

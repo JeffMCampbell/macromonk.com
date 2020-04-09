@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations, mapActions } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 import RecipeIngredient from '@/models/RecipeIngredient'
 import ViewHeader from '@/components/shared/ViewHeader'
 import MacroCard from '@/components/shared/macro_items/MacroCard'
@@ -73,12 +73,9 @@ export default {
         if (!this.recipe) { this.$router.replace({ name: 'recipes' }) }
     },
     methods: {
-        ...mapMutations(['setDashboardLoading']),
         ...mapActions(['deleteRecipe']),
         async deleteConfirmed () {
-            this.setDashboardLoading(true)
             await this.deleteRecipe(this.recipeId)
-            this.setDashboardLoading(false)
             this.$router.push({ name: 'recipes' })
         }
     }
