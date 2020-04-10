@@ -1,6 +1,6 @@
 <template>
   <div class="flex-1">
-    <card class="bg-theme-black-2 mb-4" title="Basic Info">
+    <card class="bg-theme-color-2 mb-4" title="Basic Info">
       <form-field
         input-type="text"
         v-model="name"

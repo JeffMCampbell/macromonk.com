@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-black text-white p-4">
+  <div class="bg-theme-color-1 text-white p-4">
     <div class="flex justify-between mb-4">
       <div>{{ item.name }}</div>
       <div v-if="deletable" @click="$emit('delete')"><delete-icon/></div>

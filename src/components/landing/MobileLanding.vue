@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col items-center">
 
-    <div class="w-full flex justify-center bg-theme-black-2 py-5">
+    <div class="w-full flex justify-center bg-theme-color-2 py-5">
       <logo/>
     </div>
 

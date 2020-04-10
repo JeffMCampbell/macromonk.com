@@ -1,5 +1,5 @@
 <template>
-  <card class="bg-theme-black-2 mb-4" :title="title" :tool-tip="toolTip">
+  <card class="bg-theme-color-2 mb-4" :title="title" :tool-tip="toolTip">
     <macro-grid :items="items" @selected="(item) => $emit('selected', item)" v-if="items.length"/>
     <div class="text-white text-center text-sm italic" v-else>{{ emptyText }}</div>
   </card>

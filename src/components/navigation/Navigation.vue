@@ -1,5 +1,5 @@
 <template>
-  <nav class="wrapper flex relative justify-between items-center bg-black text-white p-6">
+  <nav class="wrapper flex relative justify-between items-center bg-theme-color-1 text-white p-6">
     <logo class="ml-4"/>
     <slot/>
   </nav>

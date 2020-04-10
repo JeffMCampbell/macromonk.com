@@ -1,6 +1,6 @@
 <template>
-  <card class="md:max-w-sm md:ml-2 bg-theme-black-2" :title="title" >
-    <div class="bg-black p-4 mb-8">
+  <card class="md:max-w-sm md:ml-2 bg-theme-color-2" :title="title" >
+    <div class="bg-theme-color-1 p-4 mb-8">
       <macro-bar class="text-white" :calories="calories" :protein="protein" :carbs="carbs" :fat="fat"/>
     </div>
     <macro-chart :protein="protein" :carbs="carbs" :fat="fat"/>

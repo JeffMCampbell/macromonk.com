@@ -2,15 +2,33 @@
 @tailwind components;
 @tailwind utilities;
 
-$theme-black-1: #x;
-$theme-black-2: darken(#B8C2CC, 58%);
-$theme-black-3: darken(#B8C2CC, 54%);
-$theme-red-1: #ba3e3e;
+$themeOneColor: #22292F;
+$themeTwoColor: #272e36;
+$themeThreeColor: #2f3842;
+$themeFourColor: #f1f5f8;
+$themeBrandColor: #ba3e3e;
+$themeFontColor: #ffffff;
 
-.bg-theme-black-1 { background-color: $theme-black-1; }
-.bg-theme-black-2 { background-color: $theme-black-2; }
-.bg-theme-black-3 { background-color: $theme-black-3; }
-.bg-theme-red-1 { background-color: $theme-red-1; }
+// $caloriesColor: ;
+// $proteinColor: ;
+// $carbsColor: ;
+// $fatColor: ;
+// $primaryActionColor
+// $secondaryActionColor
+
+.bg-theme-color-1 { background-color: $themeOneColor; }
+.bg-theme-color-2 { background-color: $themeTwoColor; }
+.bg-theme-color-3 { background-color: $themeThreeColor; }
+.bg-theme-color-4 { background-color: $themeFourColor; }
+.bg-theme-brand-color { background-color: $themeBrandColor; }
+
+.font-brand-color {
+    color: $themeBrandColor;
+}
+
+body {
+    color: $themeFontColor;
+}
 
 .dashboard--container {
     display: grid;
@@ -23,7 +41,7 @@ $theme-red-1: #ba3e3e;
 
     aside {
         grid-column: span 1;
-        background: $theme-black-2;
+        background: $themeTwoColor;
     }
 
     main {
@@ -42,13 +60,6 @@ $theme-red-1: #ba3e3e;
 .dashboard--nav-menu {
     top: 100%;
 }
-
-.dashboard--nav-menu-item {
-    &:hover {
-        @extend .bg-theme-black-1;
-    }
-}
-
 
 .ingredient-form--chart {
     height: 30rem;

@@ -24,7 +24,7 @@ export default {
         },
         background: {
             type: String,
-            default: 'bg-black'
+            default: 'bg-theme-color-1'
         }
     },
     data () {

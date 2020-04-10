@@ -1,5 +1,5 @@
 <template>
-  <div id="app" class="min-h-screen bg-black overflow-x-hidden">
+  <div id="app" class="min-h-screen bg-theme-color-1 text-white overflow-x-hidden">
     <template v-if="initialized">
       <router-view />
       <app-footer/>

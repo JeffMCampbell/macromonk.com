@@ -3,7 +3,7 @@
     <view-header :title="ingredient.name" sub-title="Ingredient" :bread-crumbs="breadCrumbs" :options="options"/>
     <div class="flex flex-col md:flex-row">
       <div class="flex-1">
-        <card class="bg-theme-black-2 mb-4" title="Portion">
+        <card class="bg-theme-color-2 mb-4" title="Portion">
           <div class="text-white text-base">{{ ingredient.portionAmount }} {{ ingredient.portionType }}</div>
         </card>
         <macro-grid-card

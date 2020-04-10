@@ -2,7 +2,7 @@
   <div class="dashboard--container min-h-screen">
     <dashboard-navigation />
     <side-bar/>
-    <main class="relative h-full p-6 bg-theme-black-3">
+    <main class="relative h-full p-6 bg-theme-color-3">
       <loader v-if="updatingMacros" class="absolute m-auto pin"/>
       <router-view v-else/>
     </main>

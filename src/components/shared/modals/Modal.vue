@@ -2,10 +2,10 @@
   <transition name="modal">
     <div class="modal-mask">
       <div class="modal-container m-4" :class="{ 'w-full': isMobile }" v-on-clickaway="() => $emit('close')">
-        <div class="bg-theme-black-3 pt-16 pb-12 pl-16 pr-12" v-if="loading">
+        <div class="bg-theme-color-3 pt-16 pb-12 pl-16 pr-12" v-if="loading">
           <loader class=""/>
         </div>
-        <div class="modal-body bg-theme-black-3 p-4" v-else>
+        <div class="modal-body bg-theme-color-3 p-4" v-else>
           <slot />
         </div>
       </div>

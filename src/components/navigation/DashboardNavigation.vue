@@ -6,7 +6,7 @@
       <account-icon class="text-3xl text-grey-lighter"/>
     </div>
 
-    <div class="dashboard--nav-menu absolute bg-black pin-r text-left text-white z-50" v-if="showAccountMenu" v-on-clickaway="() => showAccountMenu = false">
+    <div class="dashboard--nav-menu absolute bg-theme-color-1 pin-r text-left text-white z-50" v-if="showAccountMenu" v-on-clickaway="() => showAccountMenu = false">
       <div class="dashboard--nav-menu-item flex items-center cursor-pointer p-4" @click.stop="goToRoute('account')">
         <wrench-icon class="mr-4 text-xl"/><span class="text-base">Settings</span>
       </div>

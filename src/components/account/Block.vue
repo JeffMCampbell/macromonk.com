@@ -1,5 +1,5 @@
 <template>
-  <card class="bg-theme-black-2 relative" :title="title">
+  <card class="bg-theme-color-2 relative" :title="title">
     <loader class="absolute m-auto pin" v-if="loading"/>
     <slot :clear-messages="clearMessages" :loading="loading"/>
     <v-button @click.native="submit" :disabled="loading || !formIsValid" class="w-full">Save</v-button>

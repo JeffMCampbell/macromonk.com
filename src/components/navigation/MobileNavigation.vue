@@ -1,5 +1,5 @@
 <template>
-  <nav class="wrapper flex relative justify-between items-center bg-black text-white p-6">
+  <nav class="wrapper flex relative justify-between items-center bg-theme-color-1 text-white p-6">
     <div class="flex items-center cursor-pointer" @click.stop="$emit('toggleMenu')">
       <menu-icon v-if="!showMenu"/>
       <clear-icon v-if="showMenu"/>

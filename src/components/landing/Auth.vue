@@ -8,7 +8,7 @@
       <v-button class="w-full mb-8" background="bg-blue" background-hover="hover:bg-blue-dark" :disabled="loading" @click.native="facebookLogin">Login with Facebook</v-button>
       <form>
         <slot class="mb-4" name="body" :loading="loading"/>
-        <v-button class="w-full mb-5" background="bg-black" background-hover="hover:bg-gray-dark" :disabled="loading || !formValid" @click.native="submit">{{ submitText }}</v-button>
+        <v-button class="w-full mb-5" background="bg-theme-color-1" background-hover="hover:bg-gray-dark" :disabled="loading || !formValid" @click.native="submit">{{ submitText }}</v-button>
       </form>
       <slot name="footer"/>
     </div>

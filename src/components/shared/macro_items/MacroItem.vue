@@ -1,8 +1,8 @@
 <template>
-  <div class="bg-black text-white p-4">
+  <div class="bg-theme-color-1 text-white p-4">
     <div :class="{'flex justify-between': hasAction}">
       <label v-if="item.fullName" @click="$emit('view')" class="block text-white underline text-sm font-bold mb-6 cursor-pointer">{{ item.fullName }}</label>
-      <options-menu v-if="showOptionsMenu" :options="options" background="bg-theme-black-3"/>
+      <options-menu v-if="showOptionsMenu" :options="options" background="bg-theme-color-3"/>
       <template v-else>
         <delete-icon v-if="deletable" class="text-md" @click.native="$emit('delete')"/>
       </template>

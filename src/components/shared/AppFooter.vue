@@ -1,5 +1,5 @@
 <template>
-  <footer class="p-4 bg-black">
+  <footer class="p-4 bg-theme-color-1">
     <div class="flex justify-center">
       <div class="text-sm text-grey-lighter">© Copyright 2019 MacroMonk</div>
     </div>

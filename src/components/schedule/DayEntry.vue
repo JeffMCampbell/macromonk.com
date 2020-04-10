@@ -1,5 +1,5 @@
 <template>
-  <card class="bg-theme-black-2 mb-4" :title="value.key">
+  <card class="bg-theme-color-2 mb-4" :title="value.key">
     <div v-if="!value.meals.length">
       <div class="text-xl text-red mb-4">Cheat Day</div>
     </div>
