@@ -8,7 +8,16 @@
       <macro-item class="mb-4" :item="value"/>
     </template>
     <label class="block text-white text-sm mb-4">Meals</label>
-    <mini-macro-item class="mb-4" v-for="(meal, index) in value.meals" :key="index" :item="meal" :deletable="editing" @delete="() => removeMeal(index)"/>
+    <mini-macro-item
+      class="mb-4"
+      v-for="(meal, index) in value.meals"
+      :key="index"
+      :item="meal"
+      :deletable="editing"
+      @delete="() => removeMeal(index)"
+      selectable
+      @select="() => $router.push({ name: 'view-meal', params: { mealId: meal.id } })"
+    />
     <div class="text-center">
       <v-button @click.native="showMealModal = true" v-if="editing">Add Meal</v-button>
     </div>

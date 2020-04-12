@@ -7,9 +7,7 @@
           <div class="text-white text-base">{{ ingredient.portionAmount }} {{ ingredient.portionType }}</div>
         </card>
         <card class="bg-theme-color-2 mb-4" :title="`Contained in Recipes (${recipes.length})`">
-          <!-- tool-tip="Recipes that contain this ingredient and the macros this ingredient makes up within that recipe."
-          empty-text="Ingredient is not in any recipes."
-          @selected="(recipe) => $router.push({ name: 'view-recipe', params: { recipeId: recipe.id } })" -->
+          <!-- tool-tip="Recipes that contain this ingredient and the macros this ingredient makes up within that recipe." -->
           <mini-macro-item
             class="mb-4"
             v-for="recipe in recipes"
@@ -18,12 +16,19 @@
             selectable
             @select="() => $router.push({ name: 'view-recipe', params: { recipeId: recipe.id } })"
           />
+          <div v-if="!recipes.length">Ingredient is not in any recipes.</div>
         </card>
         <card class="bg-theme-color-2 mb-4" :title="`Contained in Meals (${meals.length})`">
           <!-- tool-tip="Meals that contain this ingredient and the macros this ingredient makes up within that meal." -->
-          <!-- @selected="(meal) => $router.push({ name: 'view-meal', params: { mealId: meal.id } })"
-          empty-text="Ingredient is not in any meals." -->
-          <mini-macro-item class="mb-4" v-for="meal in meals" :key="meal.id" :item="meal"/>
+          <mini-macro-item
+            class="mb-4"
+            v-for="meal in meals"
+            :key="meal.id"
+            :item="meal"
+            selectable
+            @select="() => $router.push({ name: 'view-meal', params: { mealId: meal.id } })"
+          />
+          <div v-if="!meals.length">Ingredient is not in any meals.</div>
         </card>
       </div>
       <macro-card class="self-start" :calories="ingredient.calories" :protein="ingredient.protein" :carbs="ingredient.carbs" :fat="ingredient.fat"/>

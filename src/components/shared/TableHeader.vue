@@ -1,12 +1,16 @@
 <template>
   <div class="mb-4">
-    <div class="flex justify-between items-center">
-      <v-button class="ml-r" background="bg-white" background-hover="hover:bg-gray" @click.native="showFilter = !showFilter">
+    <div class="top-section flex justify-between items-center">
+      <!-- <v-button class="ml-r" background="bg-white" background-hover="hover:bg-gray" @click.native="showFilter = !showFilter">
+        <filter-icon class="text-black"/>
+      </v-button> -->
+      <text-input class="flex-1 h-full search-input mr-2" :value="value.search" @input="(newValue) => update('search', newValue)" :placeholder="searchPlaceholder"/>
+      <v-button class="mr-2 h-full" background="bg-white" background-hover="hover:bg-gray" @click.native="showFilter = !showFilter">
         <filter-icon class="text-black"/>
       </v-button>
-      <text-input class="flex-1 search-input mx-2" :value="value.search" @input="(newValue) => update('search', newValue)" :placeholder="searchPlaceholder"/>
-      <v-button class="mr-2" background="bg-green" background-hover="hover:bg-green-dark" @click.native="$emit('newItem')">New</v-button>
+      <v-button class="mr-2" background="h-full bg-green" background-hover="hover:bg-green-dark" @click.native="$emit('newItem')">New</v-button>
     </div>
+
     <div class="flex justify-center items-center mt-4" v-if="showFilter">
       <span class="text-white mr-2">Sort:</span>
       <select-input class="w-24 mr-2" :value="value.sortField" @input="(newValue) => update('sortField', newValue)" :options="sortFields"/>
@@ -71,6 +75,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+    .top-section {
+        height: 3rem;
+    }
+
     .search-input {
         width: 20rem;
     }

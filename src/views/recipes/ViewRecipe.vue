@@ -3,16 +3,17 @@
     <view-header :title="recipe.name" sub-title="Recipe" :bread-crumbs="breadCrumbs" :options="options"/>
     <div class="flex flex-col md:flex-row  items-start">
       <card class="bg-theme-color-2" :title="`Ingredients (${ingredients.length})`">
-        <mini-macro-item class="mb-4" v-for="ingredient in ingredients" :key="ingredient.id" :item="ingredient"/>
-      </card>
-      <!-- <div class="flex-1">
-        <macro-grid-card
-          tool-tip="Ingredients with this recipe and the macros each ingredient makes up within that recipe."
-          :items="ingredients"
-          @selected="(ingredient) => $router.push({ name: 'view-ingredient', params: { ingredientId: ingredient.id } })"
-          empty-text="Recipe has no ingredients."
+        <!-- tool-tip="Ingredients with this recipe and the macros each ingredient makes up within that recipe." -->
+        <mini-macro-item
+          class="mb-4"
+          v-for="ingredient in ingredients"
+          :key="ingredient.id"
+          :item="ingredient"
+          selectable
+          @select="() => $router.push({ name: 'view-ingredient', params: { ingredientId: ingredient.id } })"
         />
-      </div> -->
+        <div v-if="!ingredients.length">Recipe has no ingredients.</div>
+      </card>
       <macro-card class="self-start" :calories="recipe.calories" :protein="recipe.protein" :carbs="recipe.carbs" :fat="recipe.fat"/>
     </div>
     <confirm-modal
