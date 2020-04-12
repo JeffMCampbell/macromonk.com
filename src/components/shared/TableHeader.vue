@@ -4,7 +4,7 @@
       <!-- <v-button class="ml-r" background="bg-white" background-hover="hover:bg-gray" @click.native="showFilter = !showFilter">
         <filter-icon class="text-black"/>
       </v-button> -->
-      <text-input class="flex-1 h-full mr-2" :value="value.search" @input="(newValue) => update('search', newValue)" :placeholder="searchPlaceholder"/>
+      <text-input class="flex-1 w-full h-full mr-2" :value="value.search" @input="(newValue) => update('search', newValue)" :placeholder="searchPlaceholder"/>
       <v-button class="mr-2 h-full" background="bg-white" background-hover="hover:bg-gray" @click.native="showFilter = !showFilter">
         <filter-icon class="text-black"/>
       </v-button>
