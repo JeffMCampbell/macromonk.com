@@ -14,13 +14,12 @@
 
 <script>
 import OptionsMenu from '@/components/shared/OptionsMenu'
-import TrafficLightIcon from '@/components/shared/icons/TrafficLightIcon'
 import MacroBar from '@/components/shared/macro_items/MacroBar'
 import DeleteIcon from '@/components/shared/icons/DeleteIcon'
 
 export default {
     name: 'macro-item',
-    components: { MacroBar, DeleteIcon, OptionsMenu, TrafficLightIcon },
+    components: { MacroBar, DeleteIcon, OptionsMenu },
     props: {
         item: {
             type: Object,

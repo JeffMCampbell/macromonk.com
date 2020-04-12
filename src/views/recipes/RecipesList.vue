@@ -7,11 +7,13 @@
     empty-text="You have no Recipes!"
     @newItem="createRecipe"
     @selectedItem="viewRecipe"
+    @edit="editRecipe"
+    @delete="(recipe) => deleteRecipe(recipe.id)"
   />
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 import MacroItemList from '@/components/shared/macro_items/MacroItemList'
 
 export default {
@@ -24,11 +26,15 @@ export default {
     },
     computed: mapGetters(['processedRecipes']),
     methods: {
+        ...mapActions(['deleteRecipe']),
         createRecipe () {
             this.$router.push({ name: 'create-recipe' })
         },
         viewRecipe (recipe) {
             this.$router.push({ name: 'view-recipe', params: { recipeId: recipe.id } })
+        },
+        editRecipe (recipe) {
+            this.$router.push({ name: 'edit-recipe', params: { recipeId: recipe.id } })
         }
     }
 }

@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import { mapMutations, mapState, mapGetters, mapActions } from 'vuex'
+import { mapState, mapGetters, mapActions } from 'vuex'
 import { cloneDeep } from 'lodash'
 import ViewHeader from '@/components/shared/ViewHeader'
 import MacroCard from '@/components/shared/macro_items/MacroCard'
@@ -73,15 +73,12 @@ export default {
         this.schedule = cloneDeep(this.user.schedule)
     },
     methods: {
-        ...mapMutations(['setDashboardLoading']),
         ...mapActions(['updateSchedule']),
         updateDay (day) {
             this.schedule[day.key] = day.meals.map((meal) => meal.id)
         },
         async save () {
-            this.setDashboardLoading(true)
             await this.updateSchedule(this.schedule)
-            this.setDashboardLoading(false)
             this.editing = false
             window.scrollTo(0, 0)
         }

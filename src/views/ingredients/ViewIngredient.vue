@@ -6,20 +6,25 @@
         <card class="bg-theme-color-2 mb-4" title="Portion">
           <div class="text-white text-base">{{ ingredient.portionAmount }} {{ ingredient.portionType }}</div>
         </card>
-        <macro-grid-card
-          :title="`Contained in Recipes (${recipes.length})`"
-          tool-tip="Recipes that contain this ingredient and the macros this ingredient makes up within that recipe."
-          :items="recipes"
-          @selected="(recipe) => $router.push({ name: 'view-recipe', params: { recipeId: recipe.id } })"
+        <card class="bg-theme-color-2 mb-4" :title="`Contained in Recipes (${recipes.length})`">
+          <!-- tool-tip="Recipes that contain this ingredient and the macros this ingredient makes up within that recipe."
           empty-text="Ingredient is not in any recipes."
-        />
-        <macro-grid-card
-          :title="`Contained in Meals (${meals.length})`"
-          tool-tip="Meals that contain this ingredient and the macros this ingredient makes up within that meal."
-          :items="meals"
-          @selected="(meal) => $router.push({ name: 'view-meal', params: { mealId: meal.id } })"
-          empty-text="Ingredient is not in any meals."
-        />
+          @selected="(recipe) => $router.push({ name: 'view-recipe', params: { recipeId: recipe.id } })" -->
+          <mini-macro-item
+            class="mb-4"
+            v-for="recipe in recipes"
+            :key="recipe.id"
+            :item="recipe"
+            selectable
+            @select="() => $router.push({ name: 'view-recipe', params: { recipeId: recipe.id } })"
+          />
+        </card>
+        <card class="bg-theme-color-2 mb-4" :title="`Contained in Meals (${meals.length})`">
+          <!-- tool-tip="Meals that contain this ingredient and the macros this ingredient makes up within that meal." -->
+          <!-- @selected="(meal) => $router.push({ name: 'view-meal', params: { mealId: meal.id } })"
+          empty-text="Ingredient is not in any meals." -->
+          <mini-macro-item class="mb-4" v-for="meal in meals" :key="meal.id" :item="meal"/>
+        </card>
       </div>
       <macro-card class="self-start" :calories="ingredient.calories" :protein="ingredient.protein" :carbs="ingredient.carbs" :fat="ingredient.fat"/>
     </div>
@@ -39,14 +44,13 @@ import IngredientRecipe from '@/models/IngredientRecipe'
 import IngredientMeal from '@/models/IngredientMeal'
 import ViewHeader from '@/components/shared/ViewHeader'
 import MacroCard from '@/components/shared/macro_items/MacroCard'
-import MacroGridCard from '@/components/shared/macro_items/MacroGridCard'
+import MiniMacroItem from '@/components/shared/macro_items/MiniMacroItem'
 import Card from '@/components/shared/Card'
 import ConfirmModal from '@/components/shared/modals/ConfirmModal'
-import MacroGrid from '@/components/shared/macro_items/MacroGrid'
 
 export default {
     name: 'view-ingredient',
-    components: { ViewHeader, MacroCard, Card, ConfirmModal, MacroGrid, MacroGridCard },
+    components: { ViewHeader, MacroCard, Card, ConfirmModal, MiniMacroItem },
     props: {
         ingredientId: {
             type: String,

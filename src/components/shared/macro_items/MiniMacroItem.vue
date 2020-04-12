@@ -1,7 +1,7 @@
 <template>
   <div class="bg-theme-color-1 text-white p-4">
     <div class="flex justify-between mb-4">
-      <div>{{ item.name }}</div>
+      <div :class="{'underline cursor-pointer': selectable}" @click="() => selectable && $emit('select')">{{ item.name }}</div>
       <div v-if="deletable" @click="$emit('delete')"><delete-icon/></div>
     </div>
     <div class="flex">
@@ -35,6 +35,11 @@ export default {
         item: {
             type: Object,
             required: true
+        },
+        selectable: {
+            type: Boolean,
+            required: false,
+            default: false
         },
         deletable: {
             type: Boolean,

@@ -14,9 +14,11 @@ export async function updateUserName ({ dispatch, state }, name) {
     await dispatch('refreshUser', { uid: state.user.id, email: state.user.email })
 }
 
-export async function updateSchedule ({ dispatch, state }, schedule) {
+export async function updateSchedule ({ commit, dispatch, state }, schedule) {
+    commit('setUpdatingMacros', true)
     await UserService.updateUser(state.user.id, { schedule })
     await dispatch('refreshUser', { uid: state.user.id, email: state.user.email })
+    commit('setUpdatingMacros', false)
 }
 
 export async function refreshMacros ({ commit, state }) {

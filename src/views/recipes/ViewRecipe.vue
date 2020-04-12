@@ -1,16 +1,18 @@
 <template>
   <div>
     <view-header :title="recipe.name" sub-title="Recipe" :bread-crumbs="breadCrumbs" :options="options"/>
-    <div class="flex flex-col md:flex-row">
-      <div class="flex-1">
+    <div class="flex flex-col md:flex-row  items-start">
+      <card class="bg-theme-color-2" :title="`Ingredients (${ingredients.length})`">
+        <mini-macro-item class="mb-4" v-for="ingredient in ingredients" :key="ingredient.id" :item="ingredient"/>
+      </card>
+      <!-- <div class="flex-1">
         <macro-grid-card
-          :title="`Ingredients (${ingredients.length})`"
           tool-tip="Ingredients with this recipe and the macros each ingredient makes up within that recipe."
           :items="ingredients"
           @selected="(ingredient) => $router.push({ name: 'view-ingredient', params: { ingredientId: ingredient.id } })"
           empty-text="Recipe has no ingredients."
         />
-      </div>
+      </div> -->
       <macro-card class="self-start" :calories="recipe.calories" :protein="recipe.protein" :carbs="recipe.carbs" :fat="recipe.fat"/>
     </div>
     <confirm-modal
@@ -29,11 +31,12 @@ import RecipeIngredient from '@/models/RecipeIngredient'
 import ViewHeader from '@/components/shared/ViewHeader'
 import MacroCard from '@/components/shared/macro_items/MacroCard'
 import ConfirmModal from '@/components/shared/modals/ConfirmModal'
-import MacroGridCard from '@/components/shared/macro_items/MacroGridCard'
+import MiniMacroItem from '@/components/shared/macro_items/MiniMacroItem'
+import Card from '@/components/shared/Card'
 
 export default {
     name: 'view-recipe',
-    components: { ViewHeader, MacroCard, MacroGridCard, ConfirmModal },
+    components: { ViewHeader, MacroCard, MiniMacroItem, ConfirmModal, Card },
     props: {
         recipeId: {
             type: String,
