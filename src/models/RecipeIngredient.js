@@ -22,4 +22,8 @@ export default class extends MacroModel {
     get fullName () {
         return `${this.name} (${this.portions} ${this.portionType})`
     }
+
+    get portionLabel () {
+        return `${this.portions} ${this.portionType}`
+    }
 }

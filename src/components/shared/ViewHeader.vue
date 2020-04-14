@@ -9,10 +9,10 @@
       </div>
       <options-menu v-if="options" :options="options"/>
     </div>
-    <!-- <div class="text-white text-center mb-8">
+    <div class="text-white text-center mb-8">
       <div class="font-bold truncate text-3xl mb-2" v-if="title">{{ title }}</div>
       <div class="truncate text-lg" v-if="subTitle">{{ subTitle }}</div>
-    </div> -->
+    </div>
   </div>
 </template>
 

@@ -22,6 +22,7 @@
         <div class="text-xs mt-1">Fat</div>
       </div>
     </div>
+    <div class="text-center mt-4" v-if="item.portionLabel">{{ item.portionLabel }}</div>
   </div>
 </template>
 
