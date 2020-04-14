@@ -1,6 +1,6 @@
 <template>
   <div class="w-full">
-    <div class="flex justify-between p-4 bg-theme-color-1">
+    <div class="wrapper p-4 flex justify-between items-center bg-theme-color-1">
       <label v-if="title" class="block text-white font-bold" :class="{'underline cursor-pointer': selectable}" @click="() => selectable && $emit('select')">{{ title | capitalize }}</label>
       <options-menu v-if="showOptionsMenu" :options="options" background="bg-theme-color-3"/>
       <tool-tip v-if="toolTip" :message="toolTip">
@@ -70,3 +70,9 @@ export default {
     }
 }
 </script>
+
+<style scoped>
+    .wrapper {
+        height: 52;
+    }
+</style>

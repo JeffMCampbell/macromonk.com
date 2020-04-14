@@ -1,14 +1,11 @@
 <template>
   <div class="mb-4">
     <div class="top-section flex justify-between items-center">
-      <!-- <v-button class="ml-r" background="bg-white" background-hover="hover:bg-gray" @click.native="showFilter = !showFilter">
-        <filter-icon class="text-black"/>
-      </v-button> -->
       <text-input class="flex-1 w-full h-full mr-2" :value="value.search" @input="(newValue) => update('search', newValue)" :placeholder="searchPlaceholder"/>
-      <v-button class="mr-2 h-full" background="bg-white" background-hover="hover:bg-gray" @click.native="showFilter = !showFilter">
+      <v-button class="filter-button mr-2 h-full" background="bg-white" background-hover="hover:bg-gray" @click.native="showFilter = !showFilter">
         <filter-icon class="text-black"/>
       </v-button>
-      <v-button class="mr-2" background="h-full bg-green" background-hover="hover:bg-green-dark" @click.native="$emit('newItem')">New</v-button>
+      <v-button background="filter-button h-full bg-green" background-hover="hover:bg-green-dark" @click.native="$emit('newItem')">New</v-button>
     </div>
 
     <div class="flex justify-center items-center mt-4" v-if="showFilter">
@@ -77,5 +74,9 @@ export default {
 <style lang="scss" scoped>
     .top-section {
         height: 3rem;
+    }
+
+    .filter-button {
+        width: 4rem;
     }
 </style>

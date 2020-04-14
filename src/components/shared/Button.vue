@@ -1,6 +1,6 @@
 <template>
   <button
-    class="inline-flex flex items-center justify-center font-bold py-3 px-4 rounded focus:outline-none focus:shadow-outline"
+    class="inline-flex flex items-center justify-center font-bold p-2 rounded focus:outline-none focus:shadow-outline"
     :class="classes"
     type="button"
     :disabled="disabled">
